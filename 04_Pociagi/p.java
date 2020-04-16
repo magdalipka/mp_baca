@@ -60,8 +60,9 @@ class Zajezdnia {
 		}
 
 
-		public void InsertFirst ( String Pociag, String Wagon ) {
+		public void InsertFirst ( String Pociag, String Wagonik ) {
 
+			Wagon Wag = new Wagon(Wagonik);
 
 			Train Poc = findTrain(Pociag);
 
@@ -69,22 +70,31 @@ class Zajezdnia {
 
 			if ( ((Poc.first).next).next == Poc.first && (Poc.first).next != (Poc.first).prev ) kierunek_poczatku = false;
 
+			//first zostaje zawsze taki sam bo to glowa
+
 			if ( kierunek_poczatku ) {
 				//wstawianie kiedy poczatek jest normalny
 				
+				Wag.next = (Poc.first).next;
+				Wag.prev = Poc.first;
+				((Poc.next).first).prev = Wag; //ten ktory wczesniej byl pierwsza nie glowa teraz wskazuje jako poprzedni na nowy dodawany
+				(Poc.first).next = Wag;
 				
 
 			}
 			else {
 				//wstawianie kiedy poczatek jest owdrocony
 
-
+				Wag.next = Poc.first;
+				Wag.prev = (Poc.first).next;
+				((Poc.first).next).next = Wag; // pierwszy musi jak next (prev) wskazyac na nowy
+				(Poc.first).next = Wag;
 
 			}
 
 		}
 
-		public void InsertLast ( String Pociag, String Wagon ) {
+		public void InsertLast ( String Pociag, String Wagonik ) {
 
 
 		}
