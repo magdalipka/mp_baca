@@ -70,6 +70,8 @@ class Zajezdnia {
 
 			if ( ((Poc.first).next).next == Poc.first && (Poc.first).next != (Poc.first).prev ) kierunek_poczatku = false;
 
+			//jak nie zadziala to sprawdzic poc.first.next == poc.last
+
 			//first zostaje zawsze taki sam bo to glowa
 
 			if ( kierunek_poczatku ) {
@@ -96,6 +98,36 @@ class Zajezdnia {
 
 		public void InsertLast ( String Pociag, String Wagonik ) {
 
+			Wagon Wag = new Wagon(Wagonik);
+
+			Train Poc = findTrain(Pociag);
+
+			boolean kierunek_konca = true;
+
+			if ( ((Poc.last).prev).prev == Poc.last && ! ( (Poc.first).next == Poc.last ) ) kierunek_konca = false;
+
+			//jak nie zadziala to sprawdzic poc.first.next == poc.first.prev
+
+			if ( kierunek_konca ) {
+				//jezeli koniec pociagu jest normalny
+
+				Wag.next = Poc.first;
+				Wag.prev = Poc.last;
+				(Poc.last).next = Wag;
+				(Poc.first).prev = Wag;
+				Poc.last = Wag;
+
+			}
+			else {
+				//jezeli koniec pociagu jest odwrocony
+
+				Wag.next = Poc.last;
+				Wag.prev = Poc.first;
+				(Poc.last).prev = Wag;
+				(Poc.first).prev = Wag;
+				Poc.last = Wag;
+
+			}
 
 		}
 
