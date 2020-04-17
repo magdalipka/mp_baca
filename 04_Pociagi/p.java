@@ -54,6 +54,8 @@ class Zajezdnia {
 			}
 
 			Wagon Wag = new Wagon(Wagonik);
+			Wag.prev = Poc.first;
+			Wag.next = Poc.first;
 			(Poc.first).next = Wag;
 			(Poc.first).prev = Wag;
 			Poc.last = Wag;
@@ -103,9 +105,8 @@ class Zajezdnia {
 
 			boolean kierunek_konca = true;
 
-			if ( ((Poc.last).prev).prev == Poc.last && ! ( (Poc.first).next == Poc.last ) ) kierunek_konca = false;
+			if ( (Poc.last).prev == Poc.first && (Poc.first).next != Poc.last) kierunek_konca = false;
 
-			//jak nie zadziala to sprawdzic poc.first.next == poc.first.prev
 
 			if ( kierunek_konca ) {
 				//jezeli koniec pociagu jest normalny
@@ -139,10 +140,12 @@ class Zajezdnia {
 				//to znaczy ze jest jeden wagon tylko
 				//ewentualnie nie zadziala to sprawdzic czy Temp.next == Poc.last
 
-				System.out.print(Poc.name + ": " + Temp.name);
+				System.out.print(Poc.name + ": " + (Temp.next).name + "\n");
 			}
 			else {
 				//wiecej niz jeden wagon
+
+				System.out.print(Poc.name + ":");
 
 				Temp = Temp.next; //jetesmy na pierwszym wagoniku (nie glowie) niezaleznie od odwrocenia lub nie 
 
@@ -152,9 +155,9 @@ class Zajezdnia {
 
 				while ( !( (Temp.name).equals("#") ) ) {
 					
-					if ( zmiana_kierunku ) kierunek = !kierunek;
+					System.out.print(" " + Temp.name);
 
-					System.out.print(Temp.name);
+					if ( zmiana_kierunku ) kierunek = !kierunek;
 
 					//teraz musimy sprawdzic czy jak pzejdziemy dalej to bedziemy na odwroconej czesci pociagu
 
@@ -176,6 +179,8 @@ class Zajezdnia {
 
 
 				}
+
+				System.out.print("\n");
 
 			}
 
@@ -218,8 +223,8 @@ class Zajezdnia {
 			if ( ((T1.first).next).next == T1.first && (T1.first).next != T1.last ) kierunek1 = false;
 
 			if ( ((T2.first).next).next == T2.first && (T2.first).next != T2.last ) kierunek2 = false;
-			
-			//last pierwszego pociagu musi mieć linki do pierwszego wagonika drugiego pociagu
+			 
+			//last pierwszego pociagu musi miec linki do pierwszego wagonika drugiego pociagu
 
 			if ( kierunek1 && kierunek2 ) {
 				//laczenie dwoch normalnych
@@ -325,7 +330,6 @@ class Zajezdnia {
 
 		}
 
-
 		public Wagon findWag ( String P, String W ) {
 
 			Train Poc = findTrain(P);
@@ -370,7 +374,7 @@ class Zajezdnia {
 				}
 //--------------------------------------------------------------------
 
-				if ( Temp = Poc.first ) return null;
+				if ( Temp == Poc.first ) return null;
 				else return Temp;
 
 			}
