@@ -303,8 +303,6 @@ class Zajezdnia {
 
 			}
 
-
-
 		}
 
 		public void DelFirst ( String P1, String P2 ) {
@@ -331,13 +329,13 @@ class Zajezdnia {
 
 		}
 
-		public boolean ExistT ( String P ) {
+		public void ExistT ( String P ) {
 
 		
 
 		}
 
-		public boolean ExistW ( String P, String W ) {
+		public void ExistW ( String P, String W ) {
 
 		
 
@@ -384,7 +382,72 @@ class Source {
 
 			while (Commands > 0) {
 
+				String Polecenie = scan.next(); 
 
+				String parametr1, parametr2;
+				
+				switch( Polecenie ) {
+
+					case "New":
+
+					parametr1 = scan.next();
+					parametr2 = scan.next();
+
+					break;
+					
+					case "InsertFirst":
+
+					parametr1 = scan.next();
+					parametr2 = scan.next();
+
+					break;
+
+					case "InsertLast":
+
+					parametr1 = scan.next();
+					parametr2 = scan.next();
+
+					break;
+
+					case "Display":
+
+					parametr1 = scan.next();
+					
+					break;
+					
+					case "Trains":
+
+					break;
+					
+					case "Reverse":
+
+					parametr1 = scan.next();
+
+					break;
+					
+					case "Union":
+
+					parametr1 = scan.next();
+					parametr2 = scan.next();
+
+					break;
+					
+					case "DelFirst":
+
+					parametr1 = scan.next();
+					parametr2 = scan.next();
+
+					break;
+					
+					case "DelLast":
+
+					parametr1 = scan.next();
+					parametr2 = scan.next();
+
+					break;
+					
+
+				}
 
 
 
