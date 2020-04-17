@@ -393,12 +393,16 @@ class Source {
 					parametr1 = scan.next();
 					parametr2 = scan.next();
 
+					Zaj.New(parametr1, parametr2);
+
 					break;
 					
 					case "InsertFirst":
 
 					parametr1 = scan.next();
 					parametr2 = scan.next();
+
+					Zaj.InsertFirst(parametr1, parametr2);
 
 					break;
 
@@ -407,21 +411,29 @@ class Source {
 					parametr1 = scan.next();
 					parametr2 = scan.next();
 
+					Zaj.InsertLast(parametr1, parametr2);
+
 					break;
 
 					case "Display":
 
 					parametr1 = scan.next();
 					
+					Zaj.Display(parametr1);
+
 					break;
 					
 					case "Trains":
+
+					Zaj.Trains();
 
 					break;
 					
 					case "Reverse":
 
 					parametr1 = scan.next();
+
+					Zaj.Reverse(parametr1);
 
 					break;
 					
@@ -430,6 +442,8 @@ class Source {
 					parametr1 = scan.next();
 					parametr2 = scan.next();
 
+					Zaj.Union(parametr1, parametr2);
+
 					break;
 					
 					case "DelFirst":
@@ -437,12 +451,16 @@ class Source {
 					parametr1 = scan.next();
 					parametr2 = scan.next();
 
+					Zaj.DelFirst(parametr1, parametr2);
+
 					break;
 					
 					case "DelLast":
 
 					parametr1 = scan.next();
 					parametr2 = scan.next();
+
+					Zaj.DelLast(parametr1, parametr2);
 
 					break;
 					
