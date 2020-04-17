@@ -261,12 +261,23 @@ class Zajezdnia {
 				(T1.last).prev = T2.last;
 				(T2.last).next = T1.first;
 
-				//updatujemy last
+				//updatujemy T1.last
 				T1.last = T2.last;
 
 			}
 			else if ( !kierunek1 && !kierunek2 ) {
 				//laczenie dwoch odwroconych
+
+				//laczymy srodek
+				(T1.last).prev = (T2.first).next;
+				((T2.first).next).next = T1.last;
+
+				//laczymy boki
+				(T2.last).prev = T1.first;
+				(T1.first).prev = T2.last;
+
+				//updatujemy T1.last
+				T1.last = T2.last;
 
 			}
 
