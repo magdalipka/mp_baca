@@ -253,6 +253,17 @@ class Zajezdnia {
 			else if ( !kierunek1 && kierunek2 ) {
 				//laczenie odwroconego z normalnym
 
+				//laczymy srodek
+				(T1.last).prev = (T1.first).next;
+				((T2.first).next).prev = T1.last;
+				
+				//laczymy boki
+				(T1.last).prev = T2.last;
+				(T2.last).next = T1.first;
+
+				//updatujemy last
+				T1.last = T2.last;
+
 			}
 			else if ( !kierunek1 && !kierunek2 ) {
 				//laczenie dwoch odwroconych
