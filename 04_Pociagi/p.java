@@ -281,6 +281,29 @@ class Zajezdnia {
 
 			}
 
+			//odczepiamy glowe od pociagu2
+			T2.first = null;
+			T2.last = null;
+			T2.name = null;
+
+
+			//usuwamy pociag2 z listy pociagow
+			//najpierw musimy znalezc poprzedni
+
+
+			if ( T2 == HEAD ) HEAD = T2.next;
+			else {
+
+				Train Temp = HEAD;
+
+				while ( Temp.next != T2 ) Temp = Temp.next;
+
+				Temp.next = T2.next;
+				T2.next = null;
+
+			}
+
+
 
 		}
 
