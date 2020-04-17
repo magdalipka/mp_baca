@@ -337,20 +337,41 @@ class Zajezdnia {
 				if ( Temp == null ) return null;
 				else Temp = Temp.next;
 
-				while ( (Temp.name).equals("#") ) {
+//---------------------------------------------------------------
 
-					if ( (Temp.name).equals(W) ) return Temp;
-					else {
+				boolean kierunek = true; //domyslnie poczatek nie jest odwrcony, dopiero to sprawdzimy
 
-						//przechodzimy dalej zgodnie z zasadami jak w display
+				boolean zmiana_kierunku = false;
 
+				while ( !( (Temp.name).equals("#") ) ) {
 
-
-					}
+					if ( (Temp.name).equals(W) ) break;
 					
+					if ( zmiana_kierunku ) kierunek = !kierunek;
+
+					//teraz musimy sprawdzic czy jak pzejdziemy dalej to bedziemy na odwroconej czesci pociagu
+
+					if ( kierunek && (Temp.next).next == Temp && !zmiana_kierunku ) {
+						zmiana_kierunku = true;
+						//kierunek = false; //jestesmy na osatnim wagoniku normalnej czesci
+					}
+					else zmiana_kierunku = false;
+
+					if ( !kierunek && (Temp.prev).prev == Temp && !zmiana_kierunku ) {
+						zmiana_kierunku = true;
+						//kierunek = true; //jestesmy na ostatnim wagoniku odwroconej czesci
+					}
+					else zmiana_kierunku = false;
+
+
+					if ( kierunek ) Temp = Temp.next;
+					else Temp = Temp.prev;
+
 				}
-				
-				return null;
+//--------------------------------------------------------------------
+
+				if ( Temp = Poc.first ) return null;
+				else return Temp;
 
 			}
 			
