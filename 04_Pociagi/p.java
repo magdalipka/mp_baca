@@ -59,7 +59,6 @@ class Zajezdnia {
 			Poc.last = Wag;
 		}
 
-
 		public void InsertFirst ( String Pociag, String Wagonik ) {
 
 			Wagon Wag = new Wagon(Wagonik);
@@ -194,7 +193,6 @@ class Zajezdnia {
 
 		}
 
-
 		public void Reverse ( String Pociag ) {
 
 			Train Temp = findTrain(Pociag);
@@ -207,6 +205,49 @@ class Zajezdnia {
 
 
 		public void Union ( String P1, String P2 ) {
+
+			Train T1 = findTrain(P1);
+			Train T2 = findTrain(P2);
+
+			//sprawdzamy czy pociagi sa odwrocone
+
+			boolean kierunek1 = true;
+			boolean kierunek2 = true;
+
+			if ( ((T1.first).next).next == T1.first && (T1.first).next != T1.last ) kierunek1 = false;
+
+			if ( ((T2.first).next).next == T2.first && (T2.first).next != T2.last ) kierunek2 = false;
+			
+			//last pierwszego pociagu musi mieć linki do pierwszego wagonika drugiego pociagu
+
+			if ( kierunek1 && kierunek2 ) {
+				//laczenie dwoch normalnych
+
+				//sklejamy srodek
+				(T1.last).next = (T2.first).next;
+				((T2.first).next).prev = T1.last;
+
+				//sklejamy boki
+				(T1.first).prev = T2.last;
+				(T2.last).prev = T1.first;
+
+				//updatujemy T1.last
+				T1.last = T2.last;
+			}
+			else if ( kierunek1 && !kierunek2 ) {
+				//laczenie normalnego z odwroconym
+
+
+			}
+			else if ( !kierunek1 && kierunek2 ) {
+				//laczenie odwroconego z normalnym
+
+			}
+			else if ( !kierunek1 && !kierunek2 ) {
+				//laczenie dwoch odwroconych
+
+			}
+
 
 		}
 
