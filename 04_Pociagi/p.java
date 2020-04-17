@@ -152,6 +152,7 @@ class Zajezdnia {
 
 				while ( !( (Temp.name).equals("#") ) ) {
 					
+					if ( zmiana_kierunku ) kierunek = !kierunek;
 
 					System.out.print(Temp.name);
 
@@ -159,18 +160,18 @@ class Zajezdnia {
 
 					if ( kierunek && (Temp.next).next == Temp && !zmiana_kierunku ) {
 						zmiana_kierunku = true;
-						kierunek = false; //jestesmy na osatnim wagoniku normalnej czesci
+						//kierunek = false; //jestesmy na osatnim wagoniku normalnej czesci
 					}
 					else zmiana_kierunku = false;
 
 					if ( !kierunek && (Temp.prev).prev == Temp && !zmiana_kierunku ) {
 						zmiana_kierunku = true;
-						kierunek = true; //jestesmy na ostatnim wagoniku odwroconej czesci
+						//kierunek = true; //jestesmy na ostatnim wagoniku odwroconej czesci
 					}
 					else zmiana_kierunku = false;
 
 
-					if ( (kierunek && !zmiana_kierunku) || (!kierunek && zmiana_kierunku)  ) Temp = Temp.next;
+					if ( kierunek ) Temp = Temp.next;
 					else Temp = Temp.prev;
 
 
