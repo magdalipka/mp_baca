@@ -187,7 +187,7 @@ class Zajezdnia {
 			Train Temp = HEAD;
 			System.out.print("Trains:");
 			while ( Temp != null ) {
-				System.out.print("  " + Temp.name);
+				System.out.print(" " + Temp.name);
 				Temp = Temp.next;
 			}
 			System.out.print("\n");
@@ -325,46 +325,44 @@ class Zajezdnia {
 
 		}
 
+
+		public Wagon findWag ( String P, String W ) {
+
+			Train Poc = findTrain(P);
+			
+			if ( Poc == null ) return null;
+			else {
+
+				Wagon Temp = Poc.first;
+				if ( Temp == null ) return null;
+				else Temp = Temp.next;
+
+				while ( (Temp.name).equals("#") ) {
+
+					if ( (Temp.name).equals(W) ) return Temp;
+					else {
+
+						//przechodzimy dalej zgodnie z zasadami jak w display
+
+
+
+					}
+					
+				}
+				
+				return null;
+
+			}
+			
+		}
+
 		public void CLEAR () {
-
-		}
-
-		public void ExistT ( String P ) {
-
-		
-
-		}
-
-		public void ExistW ( String P, String W ) {
-
-		
 
 		}
 
 	//}
 
 }
-
-/*
-
-	struct Elem {
-		string name;
-		Elem* next;
-		Elem* prev;
-
-	};
-
-	struct Train_List {
-
-		string name;
-		Train_Liss *next;
-		Elem* first;
-		Elem* next;
-
-	};
-
-*/
-
 
 
 
@@ -480,15 +478,4 @@ class Source {
 
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
 
