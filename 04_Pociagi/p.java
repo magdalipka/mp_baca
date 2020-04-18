@@ -259,11 +259,11 @@ class Zajezdnia {
 				//laczenie odwroconego z normalnym
 
 				//laczymy srodek
-				(T1.last).prev = (T1.first).next;
+				(T1.last).prev = (T2.first).next;
 				((T2.first).next).prev = T1.last;
 				
 				//laczymy boki
-				(T1.last).prev = T2.last;
+				(T1.first).prev = T2.last;
 				(T2.last).next = T1.first;
 
 				//updatujemy T1.last
@@ -312,10 +312,126 @@ class Zajezdnia {
 
 		public void DelFirst ( String P1, String P2 ) {
 
+			//sprawdzamy czy dzialanie jest mozliwe
+
+			Train Poc = findTrain(P1);
+			if ( Poc == null ) {
+				System.out.print( "Train " + P1 + " does not exist\n");
+				return;
+			}
+			
+			if ( findTrain(P2) != null ) {
+				System.out.print( "Train " + P2 + " already exists" );
+				return;
+			}
+
+			//jezeli dzialanie jest mozliwe wykonujemy co nastepuje
+
+			//tworzymy nowy pociag z wagonikiem i wstawiamy go na poczatek listy
+
+			New(P2, ((Poc.first).next).name);
+
+			//usuwamy pierwszy wagonik z pociagu
+
+			if ( (Poc.first).next == Poc.last ) {
+				//jezeli byl to jedyny wagonik to usuwamy caly pociag
+
+				((Poc.first).next).name = null;
+				((Poc.first).next).next = null;
+				((Poc.first).next).prev = null;
+				(Poc.first).next = null;
+				(Poc.first).prev = null;
+				Poc.first = null;
+				Poc.last = null;
+
+				//usuniecie pociagu z listy
+				//musimy znalezc poprzedni
+
+				if ( Poc == HEAD) {
+					HEAD = Poc.next;
+				}
+				else {
+
+					Train Temp = HEAD;
+					while ( Temp.next != Poc ) Temp = Temp.next;
+					
+					Temp.next = (Temp.next).next;
+
+				}
+
+			}
+			else {
+				//jesli nie byl to ostatni wagonik to tylko usuwamy wagonik
+
+				//musimy sprawdzic kierunek poczatku pociagu
+
+				boolean kierunek = true;
+				boolean kierunek_next = true;
+
+				if ( ((Poc.first).next).next == Poc.first ) kierunek = false;
+				if ( kierunek && (((Poc.first).next).next).next == (Poc.first).next ) kierunek_next = false;
+				
+
+				
+			}
+			
+
 		}
 
 		public void DelLast ( String P1, String P2 ) {
 
+			//sprawdzamy czy dzialanie jest mozliwe
+
+			Train Poc = findTrain(P1);
+			if ( Poc == null ) {
+				System.out.print( "Train " + P1 + " does not exist\n");
+				return;
+			}
+			
+			if ( findTrain(P2) != null ) {
+				System.out.print( "Train " + P2 + " already exists" );
+				return;
+			}
+
+			//jezeli dzialanie jest mozliwe wykonujemy co nastepuje
+
+			//tworzymy nowy pociag z wagonikiem i wstawiamy go na poczatek listy
+
+			New(P2, (Poc.last).name);
+
+			//usuwamy pierwszy wagonik z pociagu
+
+			if ( (Poc.first).next == Poc.last ) {
+				//jezeli byl to jedyny wagonik to usuwamy caly pociag
+
+				((Poc.first).next).name = null;
+				((Poc.first).next).next = null;
+				((Poc.first).next).prev = null;
+				(Poc.first).next = null;
+				(Poc.first).prev = null;
+				Poc.first = null;
+				Poc.last = null;
+
+				//usuniecie pociagu z listy
+				//musimy znalezc poprzedni
+
+				if ( Poc == HEAD) {
+					HEAD = Poc.next;
+				}
+				else {
+
+					Train Temp = HEAD;
+					while ( Temp.next != Poc ) Temp = Temp.next;
+					
+					Temp.next = (Temp.next).next;
+
+				}
+
+			}
+			else {
+				//jesli nie byl to ostatni wagonik to tylko usuwamy wagonik
+
+			}
 		}
 
 		public Train findTrain ( String P ) {
@@ -343,14 +459,27 @@ class Zajezdnia {
 
 //---------------------------------------------------------------
 
+
+			if ( Temp.next == Temp.prev ) {
+				//to znaczy ze jest jeden wagon tylko
+				//ewentualnie nie zadziala to sprawdzic czy Temp.next == Poc.last
+
+				System.out.print(Poc.name + ": " + (Temp.next).name + "\n");
+			}
+			else {
+				//wiecej niz jeden wagon
+
+				System.out.print(Poc.name + ":");
+
+				Temp = Temp.next; //jetesmy na pierwszym wagoniku (nie glowie) niezaleznie od odwrocenia lub nie 
+
 				boolean kierunek = true; //domyslnie poczatek nie jest odwrcony, dopiero to sprawdzimy
 
 				boolean zmiana_kierunku = false;
 
 				while ( !( (Temp.name).equals("#") ) ) {
-
-					if ( (Temp.name).equals(W) ) break;
 					
+					if ( (Temp.name).equals(W) ) break;
 					if ( zmiana_kierunku ) kierunek = !kierunek;
 
 					//teraz musimy sprawdzic czy jak pzejdziemy dalej to bedziemy na odwroconej czesci pociagu
@@ -371,7 +500,9 @@ class Zajezdnia {
 					if ( kierunek ) Temp = Temp.next;
 					else Temp = Temp.prev;
 
+
 				}
+			}
 //--------------------------------------------------------------------
 
 				if ( Temp == Poc.first ) return null;
