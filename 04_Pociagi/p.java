@@ -165,9 +165,7 @@ class Zajezdnia {
 						zmiana_kierunku = true;
 						//kierunek = false; //jestesmy na osatnim wagoniku normalnej czesci
 					}
-					else zmiana_kierunku = false;
-
-					if ( !kierunek && (Temp.prev).prev == Temp && !zmiana_kierunku ) {
+					else if ( !kierunek && (Temp.prev).prev == Temp && !zmiana_kierunku ) {
 						zmiana_kierunku = true;
 						//kierunek = true; //jestesmy na ostatnim wagoniku odwroconej czesci
 					}
