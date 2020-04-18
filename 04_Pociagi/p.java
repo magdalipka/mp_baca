@@ -217,74 +217,41 @@ class Zajezdnia {
 
 			//sprawdzamy czy pociagi sa odwrocone
 
-			boolean kierunek1 = true;
-			boolean kierunek2 = true;
+			boolean direction_of_t1_end = true;
+			boolean direction_of_t2_begin = true;
+			boolean direction_of_t2_end = true;
+			
 
-			if ( ((T1.first).next).next == T1.first && (T1.first).next != T1.last ) kierunek1 = false;
+			//sprawdzamy odpowiednie kierunki wagonow
 
-			if ( ((T2.first).next).next == T2.first && (T2.first).next != T2.last ) kierunek2 = false;
+			if ( ((T1.first).prev).prev == T1.first && !( (T1.first).next == T1.last ) ) direction_of_t1_end = false;
+
+			if ( !( (T2.first).next == T2.last ) ) {
+				//czyli t2 ma wiecej niz jeden wagon
+
+				if ( ((T1.first).prev).prev == T1.first ) direction_of_t2_end = false;
+				if ( ((T1.first).next).next == T1.first ) direction_of_t2_begin = false;
+
+			}
+
+			//teraz musimy spiac ze soba srodkowe wagoniki
+
+			if ( direction_of_t1_end ) (T1.last).next = (T2.first).next;
+			else (T1.last).prev = (T2.first).next;
+
+			if ( direction_of_t2_begin ) ((T2.first).next).prev = T1.last;
+			else ((T2.last).next).next = T1.last;
+
+			//laczymy first pierwszeo z lastem ostatniego
+
+			if ( direction_of_t2_end ) (T2.last).next = T1.first;
+			else (T2.last).prev = T1.first;
+
+			(T1.first).prev = T2.last;
 			 
-			//last pierwszego pociagu musi miec linki do pierwszego wagonika drugiego pociagu
-
-			if ( kierunek1 && kierunek2 ) {
-				//laczenie dwoch normalnych
-
-				//sklejamy srodek
-				(T1.last).next = (T2.first).next;
-				((T2.first).next).prev = T1.last;
-
-				//sklejamy boki
-				(T1.first).prev = T2.last;
-				(T2.last).prev = T1.first;
-
-				//updatujemy T1.last
-				T1.last = T2.last;
-			}
-			else if ( kierunek1 && !kierunek2 ) {
-				//laczenie normalnego z odwroconym
-
-				//laczymy srodek
-				(T1.last).next = (T2.first).next;
-				(T2.first).next = T1.last;
-
-				//laczyny boki
-				(T1.first).prev = T2.last;
-				(T2.last).prev = T1.first;
-
-				//updatujemy T1.last
-				T1.last = T2.last;
-
-			}
-			else if ( !kierunek1 && kierunek2 ) {
-				//laczenie odwroconego z normalnym
-
-				//laczymy srodek
-				(T1.last).prev = (T2.first).next;
-				((T2.first).next).prev = T1.last;
-				
-				//laczymy boki
-				(T1.first).prev = T2.last;
-				(T2.last).next = T1.first;
-
-				//updatujemy T1.last
-				T1.last = T2.last;
-
-			}
-			else if ( !kierunek1 && !kierunek2 ) {
-				//laczenie dwoch odwroconych
-
-				//laczymy srodek
-				(T1.last).prev = (T2.first).next;
-				((T2.first).next).next = T1.last;
-
-				//laczymy boki
-				(T2.last).prev = T1.first;
-				(T1.first).prev = T2.last;
-
-				//updatujemy T1.last
-				T1.last = T2.last;
-
-			}
+			//aktalizujemy last
+			
+			T1.last = T2.last;
 
 			//odczepiamy glowe od pociagu2
 			T2.first = null;
@@ -368,8 +335,8 @@ class Zajezdnia {
 				boolean kierunek = true;
 				boolean kierunek_next = true;
 
-				if ( ((Poc.first).next).next == Poc.first ) kierunek = false;
-				if ( kierunek && (((Poc.first).next).next).next == (Poc.first).next ) kierunek_next = false;
+				//if ( ((Poc.first).next).next == Poc.first ) kierunek = false;
+				//if ( kierunek && (((Poc.first).next).next).next == (Poc.first).next ) kierunek_next = false;
 				
 
 				
