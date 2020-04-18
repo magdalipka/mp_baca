@@ -226,11 +226,11 @@ class Zajezdnia {
 
 			if ( ((T1.first).prev).prev == T1.first && !( (T1.first).next == T1.last ) ) direction_of_t1_end = false;
 
-			if ( !( (T2.first).next == T2.last ) ) {
+			if ( (T2.first).next != T2.last ) {
 				//czyli t2 ma wiecej niz jeden wagon
 
-				if ( ((T1.first).prev).prev == T1.first ) direction_of_t2_end = false;
-				if ( ((T1.first).next).next == T1.first ) direction_of_t2_begin = false;
+				if ( ((T2.first).prev).prev == T2.first ) direction_of_t2_end = false;
+				if ( ((T2.first).next).next == T2.first ) direction_of_t2_begin = false;
 
 			}
 
@@ -240,7 +240,7 @@ class Zajezdnia {
 			else (T1.last).prev = (T2.first).next;
 
 			if ( direction_of_t2_begin ) ((T2.first).next).prev = T1.last;
-			else ((T2.last).next).next = T1.last;
+			else ((T2.first).next).next = T1.last;
 
 			//laczymy first pierwszeo z lastem ostatniego
 
