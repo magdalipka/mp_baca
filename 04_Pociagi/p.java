@@ -80,7 +80,7 @@ class Zajezdnia {
 				
 				Wag.next = (Poc.first).next;
 				Wag.prev = Poc.first;
-				((Poc.next).first).prev = Wag; //ten ktory wczesniej byl pierwsza nie glowa teraz wskazuje jako poprzedni na nowy dodawany
+				((Poc.first).next).prev = Wag; //ten ktory wczesniej byl pierwsza nie glowa teraz wskazuje jako poprzedni na nowy dodawany
 				(Poc.first).next = Wag;
 				
 
