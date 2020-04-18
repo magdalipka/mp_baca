@@ -49,8 +49,8 @@ class Zajezdnia {
 
 			if ( HEAD == null ) HEAD = Poc;
 			else {
-				Poc.next = HEAD.next;
-				HEAD.next = Poc;
+				Poc.next = HEAD;
+				HEAD = Poc;
 			}
 
 			Wagon Wag = new Wagon(Wagonik);
@@ -147,15 +147,17 @@ class Zajezdnia {
 
 				System.out.print(Poc.name + ":");
 
-				Temp = Temp.next; //jetesmy na pierwszym wagoniku (nie glowie) niezaleznie od odwrocenia lub nie 
+				//Temp = Temp.next; //jetesmy na pierwszym wagoniku (nie glowie) niezaleznie od odwrocenia lub nie 
+
+				boolean on_next = false;
 
 				boolean kierunek = true; //domyslnie poczatek nie jest odwrcony, dopiero to sprawdzimy
 
 				boolean zmiana_kierunku = false;
 
-				while ( !( (Temp.name).equals("#") ) ) {
+				while ( !((Temp.name).equals("#")) || !on_next ) {
 					
-					System.out.print(" " + Temp.name);
+					if ( on_next ) System.out.print(" " + Temp.name);
 
 					if ( zmiana_kierunku ) kierunek = !kierunek;
 
@@ -175,6 +177,7 @@ class Zajezdnia {
 					if ( kierunek ) Temp = Temp.next;
 					else Temp = Temp.prev;
 
+					on_next = true;
 
 				}
 
