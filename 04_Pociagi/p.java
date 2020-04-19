@@ -1,4 +1,4 @@
-//Magdalena Lipa gr.1//
+//Magdalena Lipka gr.1//
 
 import java.util.Scanner;
 
@@ -332,7 +332,7 @@ class Zajezdnia {
 			else {
 				//jesli nie byl to ostatni wagonik to tylko usuwamy wagonik
 
-				//musimy sprawdzic kierunek poczatku pociagu
+				//musimy sprawdzic kierunki wagonikow
 
 				boolean kierunek_usuwanego = true;
 				boolean kierunek_nast = true;
@@ -414,6 +414,30 @@ class Zajezdnia {
 			}
 			else {
 				//jesli nie byl to ostatni wagonik to tylko usuwamy wagonik
+
+				Wagon Usuwany = Poc.last;
+				Wagon Poprz;
+
+				boolean kierunek_usuwanego = true;
+				boolean kierunek_poprz;
+
+				if ( Usuwany.prev == Poc.first ) kierunek_usuwanego = false;
+
+				if ( kierunek_usuwanego ) Poprz = Usuwany.prev;
+				else Poprz = Usuwany.next;
+
+				if ( kierunek_usuwanego && Poprz.next == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
+				else if ( !kierunek_usuwanego && Poprz.prev == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
+				else kierunek_poprz = kierunek_usuwanego; 
+
+				if ( kierunek_usuwanego ) (Poc.first).prev = Usuwany.prev;
+				else (Poc.first).prev = Usuwany.next;
+
+				if ( kierunek_poprz ) Poprz.next = Poc.first;
+				else Poprz.prev = Poc.first;
+
+				Poc.last = Poprz;
+
 
 			}
 		}
