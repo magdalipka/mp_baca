@@ -450,8 +450,8 @@ class Zajezdnia {
 				if ( kierunek_usuwanego ) Poprz = Usuwany.prev;
 				else Poprz = Usuwany.next;
 
-				if ( kierunek_usuwanego && Poprz.next == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
-				else if ( !kierunek_usuwanego && Poprz.prev == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
+				if ( kierunek_usuwanego && Poprz.prev == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
+				else if ( !kierunek_usuwanego && Poprz.next == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
 				else kierunek_poprz = kierunek_usuwanego; 
 
 				if ( kierunek_usuwanego ) (Poc.first).prev = Usuwany.prev;
