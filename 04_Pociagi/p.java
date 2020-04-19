@@ -44,6 +44,11 @@ class Zajezdnia {
 
 
 		public void New (String Pociag, String Wagonik) {
+			
+			if ( findTrain(Pociag) != null ) {
+				System.out.print("Train " + Pociag + " already exists\n");
+				return;
+			}
 
 			Train Poc = new Train(Pociag);
 
@@ -133,6 +138,11 @@ class Zajezdnia {
 
 		public void Display ( String Pociag ) {
 			Train Poc = findTrain(Pociag);
+
+			if ( Poc == null ) {
+				System.out.print("Train " + Pociag + " does not exist\n");
+				return;
+			}
 			
 			Wagon Temp = Poc.first;
 
@@ -205,6 +215,11 @@ class Zajezdnia {
 
 			Train Temp = findTrain(Pociag);
 
+			if ( Temp == null ) {
+				System.out.print("Train " + Pociag + " does not exist\n");
+				return;
+			}
+
 			(Temp.first).prev = (Temp.first).next;
 			(Temp.first).next = Temp.last;
 			Temp.last = (Temp.first).prev;
@@ -217,8 +232,17 @@ class Zajezdnia {
 			Train T1 = findTrain(P1);
 			Train T2 = findTrain(P2);
 
-			//sprawdzamy czy pociagi sa odwrocone
+			if ( T1 == null ) {
+				System.out.print("Train " + P1 + " does not exist\n");
+				return;
+			}
+			if ( T2 == null ) {
+				System.out.print("Train " + P2 + " does not exist\n");
+				return;
+			}
+			
 
+			
 			boolean direction_of_t1_end = true;
 			boolean direction_of_t2_begin = true;
 			boolean direction_of_t2_end = true;
