@@ -163,14 +163,15 @@ class Zajezdnia {
 
 					//teraz musimy sprawdzic czy jak pzejdziemy dalej to bedziemy na odwroconej czesci pociagu
 
-					if ( kierunek && (Temp.next).next == Temp && !zmiana_kierunku ) {
+					if ( kierunek && (Temp.next).next == Temp ) {
 						zmiana_kierunku = true;
 						//kierunek = false; //jestesmy na osatnim wagoniku normalnej czesci
 					}
-					else if ( !kierunek && (Temp.prev).prev == Temp && !zmiana_kierunku ) {
+					else if ( !kierunek && (Temp.prev).prev == Temp ) {
 						zmiana_kierunku = true;
 						//kierunek = true; //jestesmy na ostatnim wagoniku odwroconej czesci
 					}
+					
 					else zmiana_kierunku = false;
 
 
