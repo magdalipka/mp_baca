@@ -290,7 +290,7 @@ class Zajezdnia {
 			}
 			
 			if ( findTrain(P2) != null ) {
-				System.out.print( "Train " + P2 + " already exists" );
+				System.out.print( "Train " + P2 + " already exists\n" );
 				return;
 			}
 
@@ -334,12 +334,27 @@ class Zajezdnia {
 
 				//musimy sprawdzic kierunek poczatku pociagu
 
-				boolean kierunek = true;
-				boolean kierunek_next = true;
+				boolean kierunek_usuwanego = true;
+				boolean kierunek_nast = true;
 
-				//if ( ((Poc.first).next).next == Poc.first ) kierunek = false;
-				//if ( kierunek && (((Poc.first).next).next).next == (Poc.first).next ) kierunek_next = false;
-				
+				Wagon Usuwany = (Poc.first).next;
+				Wagon Nast;
+
+				if ( Usuwany.next == Poc.first ) kierunek_usuwanego = false;
+
+				if ( kierunek_usuwanego ) Nast = Usuwany.next;
+				else Nast = Usuwany.prev; 
+
+				if ( kierunek_usuwanego && Nast.next == Usuwany ) kierunek_nast = !kierunek_usuwanego;
+				else if ( !kierunek_usuwanego && Nast.prev == Usuwany ) kierunek_nast = !kierunek_usuwanego;
+				else kierunek_nast = kierunek_usuwanego;
+				//przepiecie pierwszego z nastem tak zeby minac usuwany
+
+				if ( kierunek_usuwanego ) (Poc.first).next = Usuwany.next;
+				else (Poc.first).next = Usuwany.prev;
+
+				if ( kierunek_nast ) Nast.prev = Poc.first;
+				else Nast.next = Poc.first;
 
 				
 			}
@@ -358,7 +373,7 @@ class Zajezdnia {
 			}
 			
 			if ( findTrain(P2) != null ) {
-				System.out.print( "Train " + P2 + " already exists" );
+				System.out.print( "Train " + P2 + " already exists\n" );
 				return;
 			}
 
