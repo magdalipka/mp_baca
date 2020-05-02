@@ -17,86 +17,85 @@ class Codon {
 		Data = Data.toUpperCase();
 	}
 
-	boolean Cut () {
+	boolean isStop(int i) {
+		if ( Data.toCharArray()[i] == 'T' && ( (Data.toCharArray()[i+1] == 'A' && Data.toCharArray()[i+2] == 'A') || (Data.toCharArray()[i+1] == 'A' && Data.toCharArray()[i+2] == 'G') || (Data.toCharArray()[i+1] == 'G' && Data.toCharArray()[i+2] == 'A') ) ) return true;
+		return false;
+	}
 
-		boolean started = false;
-		boolean ended = false;
-		int licznik = 0;
-		int i = 0;
-		while ( i < Data.length() ) {
-			//wykrycie startu
-			if ( i+2 < Data.length() && Data.toCharArray()[i] == 'A' && Data.toCharArray()[i+1] == 'T' && Data.toCharArray()[i+2] == 'G' ) {
+	boolean isStart(int i) {
+		if (Data.toCharArray()[i] == 'A' && Data.toCharArray()[i+1] == 'T' && Data.toCharArray()[i+2] == 'G') return true;
+		return false; 
+	}
 
-				if ( !started ) {
-					started = true;
-					i += 3;
-					continue;
-				}
-				else {
-					System.out.println("More than one START/STOP codon.");
-					return false;
-				}
+	boolean Validate () {
 
+		toUpper();
+
+		//sprawdzenie czy nie ma nieprawidlowych znaczkow
+		for ( int i = 0; i < Data.length(); i++ ) {
+			if ( Data.toCharArray()[i] != 'A' &&  Data.toCharArray()[i] != 'C' &&  Data.toCharArray()[i] != 'T' &&  Data.toCharArray()[i] != 'G' ) {
+				System.out.println("Wrong character in DNA sequence.");
+				return false;
 			}
-
-			if ( !started ) {
-				i++;
-				continue;
-			}
-
-			//wykrycie konca
-			if ( i+2 < Data.length() && Data.toCharArray()[i] == 'T' && ( ( Data.toCharArray()[i+1] == 'G' && Data.toCharArray()[i+2] == 'A' ) || ( Data.toCharArray()[i+1] == 'A' && Data.toCharArray()[i+2] == 'A' ) || (Data.toCharArray()[i+1] == 'G' && Data.toCharArray()[i+2] == 'G' ) ) ) {
-
-				if ( !started ) {
-					System.out.println("Wrong DNA sequence.");
-					return false;
-				}
-				else if ( ended ) {
-					System.out.println("More tha one START/STOP codon.");
-					return false;
-				}
-				else {
-					ended = true;
-					i += 3;
-					continue;
-				}
-
-			}
-
-			//jesli jestesmy miedzy startem a stopem to dodajemy element do tablicy
-			if ( i+2 < Data.length() && started && !ended ) {
-				String Pom = "";
-				Pom += Data.toCharArray()[i] + Data.toCharArray()[i+1] + Data.toCharArray()[i+2];
-				Codons[quantity] = Pom;
-				quantity++;
-			}
-
 		}
 
-		if ( started && ended ) {
-			return true;
+		//pierwsza pozycja startu
+		int start = -1;
+		for ( int i = 0; i < Data.length()-2; i++ ) {
+			if ( isStart(i) ) {
+				start = i;
+				break;
+			}
 		}
-		else {
+		if ( start == -1 ) {
 			System.out.println("Wrong DNA sequence.");
 			return false;
 		}
 
-	}
-
-	boolean Verify () {
-
-		toUpper();
-
-		if ( !Cut() ) return false;
-
-		for ( int i = 0; i < Data.length(); i++ ) {
-
+		//ostatnia pozycja konca
+		int koniec = -1;
+		for ( int i = start + 3; i < Data.length()-2; i += 3 ) {
+			if ( isStop(i) ) {
+				koniec = i;
+			}
+		}
+		if ( koniec == -1 ) {
+			System.out.println("Wrong DNA sequence.");
+			return false;
+		}
+		if ( koniec == start + 2 ) {
+			System.out.println("Wrong DNA sequence.");
+			return false;
 		}
 
+		//sprawdzenie powtorzen startu
+		for ( int i = start+3; i < koniec; i += 3 ) {
+			if ( isStart(i) ) {
+				System.out.println("More than one START/STOP codon.");
+				return false;
+			}
+		}
+
+		//sprawdzenie powtorzen konca 
+		for ( int i = koniec-3; i > start; i -= 3 ) {
+			if ( isStop(i) ) {
+				System.out.println("More than one START/STOP codon.");
+				return false;
+			}
+		}
+
+		//przepiasnie poprawnych danych do tabelki
+		for ( int i = start + 3; i < koniec; i += 3 ) {
+			String Pom = Character.toString(Data.toCharArray()[i]);
+			Pom += Character.toString(Data.toCharArray()[i+1]);
+			Pom += Character.toString(Data.toCharArray()[i+2]);
+			Codons[quantity] = Pom;
+			quantity++;
+		}
+		
 		return true;
-
+	
 	}
-
 
 }
 
@@ -113,7 +112,7 @@ class Source {
 
 			Codon KODON = new Codon(Input);
 
-			if ( KODON.Verify() ) {
+			if ( KODON.Validate() ) {
 
 
 
