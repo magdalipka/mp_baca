@@ -1,65 +1,79 @@
 import java.util.Scanner;
 
-import javax.xml.crypto.Data;
-
 class Codon {
 
 	String Data;
+	String[] Codons;
+	int quantity;
 
 	Codon(String inn) {
 		Data = inn;
+		quantity = Data.length()/3;
+		Codons = new String[quantity];
+		quantity = 0;
+	}
+
+	void toUpper() {
+		Data = Data.toUpperCase();
 	}
 
 	boolean Cut () {
 
-		String Pom = "";
-
 		boolean started = false;
 		boolean ended = false;
-
-		for ( int i = 0; i < Data.length(); i++ ) {
-
-			//sprawdzenie poprawnosci znakow
-			if ( Data.toCharArray()[i] != 'A' && Data.toCharArray()[i] != 'G' && Data.toCharArray()[i] != 'T' && Data.toCharArray()[i] != 'C') {
-				System.out.println("Wrong character in DNA sequence.");
-				return false;
-			}
-
+		int licznik = 0;
+		int i = 0;
+		while ( i < Data.length() ) {
 			//wykrycie startu
 			if ( i+2 < Data.length() && Data.toCharArray()[i] == 'A' && Data.toCharArray()[i+1] == 'T' && Data.toCharArray()[i+2] == 'G' ) {
+
 				if ( !started ) {
 					started = true;
-					i += 2;
+					i += 3;
 					continue;
 				}
 				else {
-					System.out.println("More than one START/STOP codon");
+					System.out.println("More than one START/STOP codon.");
 					return false;
 				}
+
 			}
-			
+
+			if ( !started ) {
+				i++;
+				continue;
+			}
+
 			//wykrycie konca
-			if ( i+2 < Data.length() && Data.toCharArray()[i] == 'T' && ( (Data.toCharArray()[i+1] == 'A' && Data.toCharArray()[i+2] == 'A') || (Data.toCharArray()[i+1] == 'A' && Data.toCharArray()[i+2] == 'G') || (Data.toCharArray()[i+1] == 'G' && Data.toCharArray()[i+2] == 'A') ) ) {
-				if ( started && !ended ) {
-					ended = true;
-					i += 2;
-					continue;
-				}
-				else {
-					System.out.println("More than one START/STOP codon");
+			if ( i+2 < Data.length() && Data.toCharArray()[i] == 'T' && ( ( Data.toCharArray()[i+1] == 'G' && Data.toCharArray()[i+2] == 'A' ) || ( Data.toCharArray()[i+1] == 'A' && Data.toCharArray()[i+2] == 'A' ) || (Data.toCharArray()[i+1] == 'G' && Data.toCharArray()[i+2] == 'G' ) ) ) {
+
+				if ( !started ) {
+					System.out.println("Wrong DNA sequence.");
 					return false;
 				}
+				else if ( ended ) {
+					System.out.println("More tha one START/STOP codon.");
+					return false;
+				}
+				else {
+					ended = true;
+					i += 3;
+					continue;
+				}
+
 			}
-			//sprawdzenie czy jestesmy miedzy startem a koncem, jesli tak to dodanie znakow
-			if ( started && !ended ) {
-				Pom += Data.toCharArray()[i];
+
+			//jesli jestesmy miedzy startem a stopem to dodajemy element do tablicy
+			if ( i+2 < Data.length() && started && !ended ) {
+				String Pom = "";
+				Pom += Data.toCharArray()[i] + Data.toCharArray()[i+1] + Data.toCharArray()[i+2];
+				Codons[quantity] = Pom;
+				quantity++;
 			}
 
 		}
 
 		if ( started && ended ) {
-			Data = Pom;
-			System.out.println(Data);
 			return true;
 		}
 		else {
@@ -71,12 +85,9 @@ class Codon {
 
 	boolean Verify () {
 
-		if ( !Cut() ) return false;
+		toUpper();
 
-		if ( Data.length()%3 != 0 ) {
-			System.out.println("Wrong DNA sequence.");
-			return false;
-		}
+		if ( !Cut() ) return false;
 
 		for ( int i = 0; i < Data.length(); i++ ) {
 
