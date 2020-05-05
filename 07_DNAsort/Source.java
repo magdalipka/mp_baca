@@ -1,3 +1,4 @@
+//Lipka Magdalena gr.1
 import java.util.Scanner;
 
 class Codon {
@@ -25,6 +26,28 @@ class Codon {
 	boolean isStart(int i) {
 		if (Data.toCharArray()[i] == 'A' && Data.toCharArray()[i+1] == 'T' && Data.toCharArray()[i+2] == 'G') return true;
 		return false; 
+	}
+
+	boolean isBigger (String a, String b) {
+		if ( a.toCharArray()[0] > b.toCharArray()[0] ) return true;
+		else if ( a.toCharArray()[0] == b.toCharArray()[0] ) {
+			if ( a.toCharArray()[1] > b.toCharArray()[1] ) return true;
+			else if ( a.toCharArray()[1] == b.toCharArray()[1] ) {
+				if ( a.toCharArray()[2] > b.toCharArray()[2] ) return true;
+				else if ( a.toCharArray()[2] == b.toCharArray()[2] ) {
+					if ( a.toCharArray()[3] > b.toCharArray()[3] ) return true;
+					else return false;
+				}
+				else return false;
+			}
+			else return false;
+		}  
+		else return false;
+	}
+
+	boolean isSomewhatBigger ( String a, char b, int pos ) {
+		if (a.toCharArray()[pos] > b) return true;
+		else return false;
 	}
 
 	boolean Validate () {
@@ -97,6 +120,81 @@ class Codon {
 	
 	}
 
+	void swap (int m, int n) {
+		String pom = Codons[m];
+		Codons[m] = Codons[n];
+		Codons[n] = pom;
+	}
+
+	int partition (char klucz, int left, int right, int depth ) {
+	
+		int i = left - 1;
+
+		for ( int j = left; j <= right; j++ ) {
+			if ( !isSomewhatBigger(Codons[j], klucz, depth) ) {
+				i++;
+				swap(i, j);
+			}
+		}
+		return i;
+	}
+
+	char genKey(int i) {
+		if ( i%4 == 0 ) return 'A';
+		else if ( i%4 == 1 ) return 'C';
+		else if ( i%4 == 2 ) return 'G';
+		else return 'T'; 
+	}
+
+	int findBorder ( int start, int depth ) {
+		for ( int i = start; i < quantity; i++ ) {
+			if ( i < quantity-1 && Codons[i].toCharArray()[depth] != Codons[i+1].toCharArray()[depth]  || depth > 0 && i < quantity-1 && Codons[i].toCharArray()[depth-1] != Codons[i+1].toCharArray()[depth-1] ) return i;
+		}
+		return quantity - 1;
+	}
+
+	void sort () {
+ 
+		int left = 0;
+		int right = quantity-1;
+		int Border = -1;
+		char key = 'T';
+		int licznik = 0;
+
+		//przesortowanie ze wzgledu na pierwszy znak
+		while ( left < right ) {
+			key = genKey(licznik);
+			int temp = partition(key, left, right, 0);
+			if ( temp > left ) left = temp;
+			licznik++;
+		}
+
+		for ( int depth = 1; depth < 3; depth++ ) {
+			left = 0;
+			while( left < right ) {
+				if ( key == 'T' ) Border = findBorder(left, depth-1);
+				key = genKey(licznik);
+				licznik++;
+				int temp = partition(key, left, Border, depth);
+				if ( temp > left ) left = temp;
+				if ( key == 'T' ) left = Border+1;
+			}			
+		}
+		
+
+
+
+	}
+
+	void print() {
+		for ( int i = 0; i < quantity; i++ ) {
+			System.out.print(Codons[i]);
+		}
+		System.out.print("\n");
+	}
+
+
+
 }
 
 
@@ -104,9 +202,9 @@ class Source {
 	public static Scanner scan = new Scanner(System.in);
 	public static void main ( String[] args  ) {
 
-		//int Prompts = scan.nextInt();
+		int Prompts = scan.nextInt();
 
-		for ( int i = 0; i < 1; i++ ) {
+		for ( int i = 0; i < Prompts; i++ ) {
 
 			String Input = scan.next();
 
@@ -114,6 +212,8 @@ class Source {
 
 			if ( KODON.Validate() ) {
 
+				KODON.sort();
+				KODON.print();
 
 
 			}
