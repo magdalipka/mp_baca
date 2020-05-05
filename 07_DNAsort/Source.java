@@ -86,7 +86,7 @@ class Codon {
 			System.out.println("Wrong DNA sequence.");
 			return false;
 		}
-		if ( koniec == start + 2 ) {
+		if ( koniec == start + 3 ) {
 			System.out.println("Wrong DNA sequence.");
 			return false;
 		}
@@ -106,6 +106,7 @@ class Codon {
 				return false;
 			}
 		}
+
 
 		//przepiasnie poprawnych danych do tabelki
 		for ( int i = start + 3; i < koniec; i += 3 ) {
@@ -168,22 +169,21 @@ class Codon {
 			if ( temp > left ) left = temp;
 			licznik++;
 		}
-
+		//sortowanie ze wzgledu na pozostale znaki
 		for ( int depth = 1; depth < 3; depth++ ) {
 			left = 0;
+			licznik = 3;
+			key = genKey(licznik);
 			while( left < right ) {
 				if ( key == 'T' ) Border = findBorder(left, depth-1);
-				key = genKey(licznik);
 				licznik++;
+				key = genKey(licznik);
 				int temp = partition(key, left, Border, depth);
 				if ( temp > left ) left = temp;
 				if ( key == 'T' ) left = Border+1;
 			}			
 		}
 		
-
-
-
 	}
 
 	void print() {
