@@ -183,7 +183,38 @@ class Codon {
 				if ( key == 'T' ) left = Border+1;
 			}			
 		}
-		
+	}
+
+	void move (int start, int koniec) {
+		String Temp = Codons[koniec];
+		int i = koniec;
+		while ( i > start ) {
+			Codons[i] = Codons[i-1];
+			i--;
+		}
+		Codons[i] = Temp;
+	}
+
+	void stablepartition (char klucz, int depth ) {
+
+		int i = 0;
+
+		for ( int j = 0; j < quantity; j++ ) {
+			if ( !isSomewhatBigger(Codons[j], klucz, depth) ) {
+				move(i, j);
+				i++;
+			}
+		}
+	}
+
+	void stablesort() {
+
+		for ( int i = 0; i < 3; i++ ) {
+			stablepartition('A', 2-i);
+			stablepartition('C', 2-i);
+			stablepartition('G', 2-i);
+		}
+
 	}
 
 	void print() {
@@ -193,10 +224,7 @@ class Codon {
 		System.out.print("\n");
 	}
 
-
-
 }
-
 
 class Source {
 	public static Scanner scan = new Scanner(System.in);
@@ -212,15 +240,10 @@ class Source {
 
 			if ( KODON.Validate() ) {
 
-				KODON.sort();
+				KODON.stablesort();
 				KODON.print();
 
-
 			}
-			
-
 		}
-
 	}
-
 }
