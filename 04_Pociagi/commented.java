@@ -381,10 +381,10 @@ class Zajezdnia {
 		//tworzę nowy pociag z wagonikiem i wstawiam go na poczatek listy
 		New(P2, ((Poc.first).next).name);
 
-		//usuwamy pierwszy wagonik z pociagu
+		//teraz usuwam pierwszy wagonik z pociągu
 
 		if ( (Poc.first).next == Poc.last ) {
-			//jezeli byl to jedyny wagonik to usuwamy caly pociag
+			//jeżeli był to jedyny wagonik to usuwam cały pociąg
 
 			((Poc.first).next).name = null;
 			((Poc.first).next).next = null;
@@ -395,52 +395,52 @@ class Zajezdnia {
 			Poc.last = null;
 
 			//usuniecie pociagu z listy
-			//musimy znalezc poprzedni
-
 			if ( Poc == HEAD) {
 				HEAD = Poc.next;
 			}
 			else {
-
 				Train Temp = HEAD;
 				while ( Temp.next != Poc ) Temp = Temp.next;
 				
 				Temp.next = (Temp.next).next;
-
 			}
-
 		}
 		else {
-			//jesli nie byl to ostatni wagonik to tylko usuwamy wagonik
+			//jeśli nie był to ostatni wagonik to tylko usuwam wagonik
 
-			//musimy sprawdzic kierunki wagonikow
-
+			//muszę sprawdzic kierunki wagonikow
 			boolean kierunek_usuwanego = true;
-			boolean kierunek_nast = true;
+			boolean kierunek_nast = true; //wagonik późniejszy usuwanego
 
 			Wagon Usuwany = (Poc.first).next;
 			Wagon Nast;
 
+            /* wiem, że pociąg ma conajmniej dwa wagoniki, dlatego
+            mogę sprawdzić tylko czy następny usuwanego jego wcześniejszym */
 			if ( Usuwany.next == Poc.first ) kierunek_usuwanego = false;
 
+            //zgodnie z kierunkiem usuwanego wyznaczam wagon późniejszy
 			if ( kierunek_usuwanego ) Nast = Usuwany.next;
 			else Nast = Usuwany.prev; 
 
+            //sprawdzam kierunek wagonu Nast
 			if ( kierunek_usuwanego && Nast.next == Usuwany ) kierunek_nast = !kierunek_usuwanego;
 			else if ( !kierunek_usuwanego && Nast.prev == Usuwany ) kierunek_nast = !kierunek_usuwanego;
-			else kierunek_nast = kierunek_usuwanego;
-			//przepiecie pierwszego z nastem tak zeby minac usuwany
-
+            else kierunek_nast = kierunek_usuwanego;
+            
+            /*przepinam referencje głowy i wagonu Nast tak, żeby
+            pominąć Usuwany w liście */
+            /* dwie poniższe linijki możnaby zastąpić przez
+            (Poc.first).next = Nast
+            jednak są one zapewna pozostałością z innego pomysłu
+            realizacji tego zadania, niemniej realizują dokładnie
+            taką samą operację */
 			if ( kierunek_usuwanego ) (Poc.first).next = Usuwany.next;
 			else (Poc.first).next = Usuwany.prev;
 
 			if ( kierunek_nast ) Nast.prev = Poc.first;
-			else Nast.next = Poc.first;
-
-				
+			else Nast.next = Poc.first;	
 		}
-			
-
 	}
 
 	public void DelLast ( String P1, String P2 ) {
