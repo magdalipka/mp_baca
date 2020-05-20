@@ -445,29 +445,25 @@ class Zajezdnia {
 
 	public void DelLast ( String P1, String P2 ) {
 
-		//sprawdzamy czy dzialanie jest mozliwe
-
+		//sprawdzam czy dzialanie jest mozliwe
 		Train Poc = findTrain(P1);
 		if ( Poc == null ) {
 			System.out.print( "Train " + P1 + " does not exist\n");
 			return;
 		}
-			
 		if ( findTrain(P2) != null ) {
 			System.out.print( "Train " + P2 + " already exists\n" );
 			return;
 		}
 
-		//jezeli dzialanie jest mozliwe wykonujemy co nastepuje
+		//jezeli dzialanie jest możliwe to wykonuję co nastepuje
 
-		//tworzymy nowy pociag z wagonikiem i wstawiamy go na poczatek listy
-
+		//tworzę nowy pociag z wagonikiem i wstawiamy go na początek listy
 		New(P2, (Poc.last).name);
 
-		//usuwamy pierwszy wagonik z pociagu
-
+		//usuwam pierwszy wagonik z pociagu
 		if ( (Poc.first).next == Poc.last ) {
-			//jezeli byl to jedyny wagonik to usuwamy caly pociag
+			//jeżeli był to jedyny wagonik to usuwam cały pociag
 			((Poc.first).next).name = null;
 			((Poc.first).next).next = null;
 			((Poc.first).next).prev = null;
@@ -476,24 +472,18 @@ class Zajezdnia {
 			Poc.first = null;
 			Poc.last = null;
 
-			//usuniecie pociagu z listy
-			//musimy znalezc poprzedni
-
+			//usunięcie pociągu z listy
 			if ( Poc == HEAD) {
 				HEAD = Poc.next;
 			}
 			else {
-
 				Train Temp = HEAD;
-				while ( Temp.next != Poc ) Temp = Temp.next;
-					
+				while ( Temp.next != Poc ) Temp = Temp.next;	
 					Temp.next = (Temp.next).next;
-
 			}
-
 		}
 		else {
-			//jesli nie byl to ostatni wagonik to tylko usuwamy wagonik
+			//jeśli nie byl to ostatni wagonik to tylko usuwam wagonik
 
 			Wagon Usuwany = Poc.last;
 			Wagon Poprz;
@@ -501,21 +491,32 @@ class Zajezdnia {
 			boolean kierunek_usuwanego = true;
 			boolean kierunek_poprz;
 
+            //prawdzam kierunek usuwanego
 			if ( Usuwany.prev == Poc.first ) kierunek_usuwanego = false;
 
+            //wyznaczam późniejszy wagon zgodnie z kierunkiem usuwanego
 			if ( kierunek_usuwanego ) Poprz = Usuwany.prev;
 			else Poprz = Usuwany.next;
 
+            //wyznaczam kierunek wagonu Poprz
 			if ( kierunek_usuwanego && Poprz.prev == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
 			else if ( !kierunek_usuwanego && Poprz.next == Usuwany ) kierunek_poprz = !kierunek_usuwanego;
 			else kierunek_poprz = kierunek_usuwanego; 
 
+            /*przepisanm referencje głowy i Poprz tak aby ominąć
+            wagon usuwany*/
+            /* tak jak w DelFirts, można by to zrealizować jedną linijką,
+            ale są to poniższe dwie linijki są pozostałością po innym
+            pomyśle realizacji tego zadania, jednak dokonują dokładnie
+            takich samych operacji */
 			if ( kierunek_usuwanego ) (Poc.first).prev = Usuwany.prev;
 			else (Poc.first).prev = Usuwany.next;
 
 			if ( kierunek_poprz ) Poprz.next = Poc.first;
 			else Poprz.prev = Poc.first;
 
+            /*ponieważ usuwam ostatni to trzeba jeszcze
+            zaktualizować referencję Last w pociągu*/
 			Poc.last = Poprz;
 
 		}
