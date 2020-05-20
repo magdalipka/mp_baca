@@ -523,79 +523,62 @@ class Zajezdnia {
 	}
 
 	public Train findTrain ( String P ) {
-
+        //funkcja znajdująca referencję do pociągu o zadanej nazwie
 		Train Temp = HEAD;
-
 		while ( Temp != null ) {
 			if ( (Temp.name).equals(P) ) return Temp;
 			Temp = Temp.next;
 		}
 		return null;
-
 	}
 
-	public Wagon findWag ( String P, String W ) {
+	/*public Wagon findWag ( String P, String W ) {
+        //funkcja znajdująca referencję do wagonu o zadanej
+        //nazwie w pociągu o zadanej nazwie
+        //okazuje się, że nie używam jej nigdzie w kodzie
+        //mimo, że widocznie myślałam, że się przyda
+        //bardzo możliwe też, że nie działa, dlatego ją wykomentowałam
 		Train Poc = findTrain(P);
-			
 		if ( Poc == null ) return null;
 		else {
 
 			Wagon Temp = Poc.first;
 			if ( Temp == null ) return null;
-			else Temp = Temp.next;
-
-//---------------------------------------------------------------
-
-
+            else Temp = Temp.next;
+            
 		if ( Temp.next == Temp.prev ) {
 			//to znaczy ze jest jeden wagon tylko
 			//ewentualnie nie zadziala to sprawdzic czy Temp.next == Poc.last
-
 			System.out.print(Poc.name + ": " + (Temp.next).name + "\n");
 		}
 		else {
 			//wiecej niz jeden wagon
-
 			System.out.print(Poc.name + ":");
-
 			Temp = Temp.next; //jetesmy na pierwszym wagoniku (nie glowie) niezaleznie od odwrocenia lub nie 
-
 			boolean kierunek = true; //domyslnie poczatek nie jest odwrcony, dopiero to sprawdzimy
-
 			boolean zmiana_kierunku = false;
-
 			while ( !( (Temp.name).equals("#") ) ) {
-					
 				if ( (Temp.name).equals(W) ) break;
 				if ( zmiana_kierunku ) kierunek = !kierunek;
-
 				//teraz musimy sprawdzic czy jak pzejdziemy dalej to bedziemy na odwroconej czesci pociagu
-
 				if ( kierunek && (Temp.next).next == Temp && !zmiana_kierunku ) {
 					zmiana_kierunku = true;
 					//kierunek = false; //jestesmy na osatnim wagoniku normalnej czesci
 				}
 				else zmiana_kierunku = false;
-
 				if ( !kierunek && (Temp.prev).prev == Temp && !zmiana_kierunku ) {
 					zmiana_kierunku = true;
 					//kierunek = true; //jestesmy na ostatnim wagoniku odwroconej czesci
 				}
 				else zmiana_kierunku = false;
-
-
 				if ( kierunek ) Temp = Temp.next;
 				else Temp = Temp.prev;
-
-
 			}
 		}
-//--------------------------------------------------------------------
-
 			if ( Temp == Poc.first ) return null;
 			else return Temp;
 		}	
-	}
+	}*/
 }
 
 
