@@ -21,60 +21,42 @@ class Tabelka {
 		tab[j] = tab[i] - tab[j];
 		tab[i] = tab[i] - tab[j];
 	}
-
-	void heapify( int i ) { 
-		
-		int largest = i; // Initialize largest as root 
-		int l = 2*i + 1; // left = 2*i + 1 
-		int r = 2*i + 2; // right = 2*i + 2 
+/*
+	while not end of tabay, 
+	if heap is empty, 
+		place item at root; 
+	else, 
+		place item at bottom of heap; 
+		while (child > parent) 
+			swap(parent, child); 
+	go to next tabay element; 
+end
+*/
+	void heapify(int i) { 
+        //int largest = i; // Initialize largest as root 
+        int l = 2*i + 1; // left = 2*i + 1 
+        int r = 2*i + 2; // right = 2*i + 2 
   
-		// If left child is larger than root 
-		if (l < n && tab[l] < tab[largest]) 
-			largest = l; 
-  
-		// If right child is larger than largest so far 
-		if (r < n && tab[r] < tab[largest]) 
-			largest = r; 
-  
-		// If largest is not root 
-		if (largest != i) 
-		{ 
-			int swap = tab[i]; 
-			tab[i] = tab[largest]; 
-			tab[largest] = swap; 
-  
-			// Recursively heapify the affected sub-tree 
-			heapify( largest ); 
-		} 
-
-		
-		/*
-		if ( i == 0 ) return;
-
-		int parent = (i-1)/2;
-
-		if ( tab[i] > tab[parent] ) {
-			swap (i, parent);
-			heapify(parent);
+		if ( l < n && r < n && tab[l] > tab[r]) {
+			swap (l, r);
+			heapify(l);
+			heapify(r);
 		}
-		*/
-	} 
 
-	int find (int poz) {
-		for ( int i = 0; i < poz; i++ ) {
+        if (l < n && tab[l] > tab[i]) {
+			swap(i, l);
 			heapify(i);
-		}
-		print();
-		for ( int i = poz; i < n; i++ ) {
-	 		if ( tab[i] < tab[0] ) {
-				int temp = tab[0];
-				tab[0] = tab[i];   // Now A[i] the new root
-				tab[i] = temp;
-		 		heapify(i);
-			  }
-			}
-		print();
-   		return tab[0];
+		} 
+  
+        if (r < n && tab[r] > tab[i]){
+			swap(i, l);
+			heapify(i);
+		} 
+    } 
+
+	int find (int x) {
+		//heapify(0);
+		return tab[x-1];
 	}
 
 	void print() {
@@ -102,8 +84,15 @@ class Source {
 			
 			for ( int i = 0; i<Length; i++ ) {
 				Tab.tab[i] = scan.nextInt();
+				//Tab.heapify(i, i);
+				//Tab.print();
 			}
 			
+			for ( int i = 0; i < Length; i++ ) {
+				Tab.heapify(i);
+			}
+
+			Tab.print();
 
 			int Prompts = scan.nextInt();
 
