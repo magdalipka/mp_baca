@@ -21,42 +21,35 @@ class Tabelka {
 		tab[j] = tab[i] - tab[j];
 		tab[i] = tab[i] - tab[j];
 	}
-/*
-	while not end of tabay, 
-	if heap is empty, 
-		place item at root; 
-	else, 
-		place item at bottom of heap; 
-		while (child > parent) 
-			swap(parent, child); 
-	go to next tabay element; 
-end
-*/
-	void heapify(int i) { 
-        //int largest = i; // Initialize largest as root 
+
+	void heapify(int i, int lim) { 
+        int topop = i; 
         int l = 2*i + 1; // left = 2*i + 1 
         int r = 2*i + 2; // right = 2*i + 2 
-  
-		if ( l < n && r < n && tab[l] > tab[r]) {
-			swap (l, r);
-			heapify(l);
-			heapify(r);
-		}
 
-        if (l < n && tab[l] > tab[i]) {
-			swap(i, l);
-			heapify(i);
-		} 
+        if (l < n && l < lim && tab[l] > tab[topop]) topop = l;
   
-        if (r < n && tab[r] > tab[i]){
-			swap(i, l);
-			heapify(i);
-		} 
-    } 
+		if (r < n && r < lim && tab[r] > tab[topop]) topop = r;
+		
+		if ( topop != i ) {
+			swap(topop, i);
+			heapify(topop, lim);
+		}
+    }
 
 	int find (int x) {
-		//heapify(0);
-		return tab[x-1];
+		for ( int i = x-1; i >=0 ; i-- ) {
+			heapify (i, x);
+		}
+
+		for ( int i = x; i < n; i++ ) {
+			if ( tab[i] < tab[0] ) {
+				swap(i, 0);
+				heapify(0, x);
+			}
+		}
+
+		return tab[0];
 	}
 
 	void print() {
@@ -88,19 +81,18 @@ class Source {
 				//Tab.print();
 			}
 			
-			for ( int i = 0; i < Length; i++ ) {
-				Tab.heapify(i);
-			}
-
-			Tab.print();
+			//for ( int i = 0; i < Length; i++ ) {
+				//Tab.heapify(i);
+			//}
 
 			int Prompts = scan.nextInt();
 
 			for ( int p = 0; p < Prompts; p++ ) {
 				int x = scan.nextInt();
-				System.out.println(x + " " + Tab.find(x));
+				if (x < 1 || x > Length
+				) System.out.println(x + " brak");
+				else System.out.println(x + " " + Tab.find(x));
 			}
-
 
 		}
 
