@@ -13,7 +13,9 @@ podlegają operatorowi (powstaje wyrażenie b+c), które nasępnie zostaje
 położone na stos (a|b+c). Postępujemy tak ze wszystkimi znakami z wejścia,
 po czym ostateczne wyrażenie jest wyjściową formą (zakładając poprawność
 wyrażenia wejciowego, ale od tego jest inna funkcja).
-W przypadku konwersji INF->ONP 
+W przypadku konwersji INF->ONP litery od razu są rukowae na ekran,
+a opertory odkładane stos. W momence pojawienia się nawiasu zaczynam
+zdejmować odpowiednią ilość operatorów ze stosu i drukować je do konsoli. 
 */
 
 class Stack {
@@ -135,7 +137,7 @@ class Source {
 						else if ( c == '(') { //jeżeli znak jest nawiasem otwierającym to należy go odłożyć na stos operatorów
 							theStack.PUSH(c);
 						} else if (c == '<' || c == '>' || c == '+' || c == '-' || c == '*' || c == '/' || c == '%' ) { //operator lewostronnie łączny
-							//zdejmuję ze stosu operatoryo priortecie niemniejszym niż priorytek aktualnego znaku
+							//zdejmuję ze stosu operatorów priorytecie niemniejszym niż priorytek aktualnego znaku
 							while (Priority(theStack.TOP()) >= Priority(c)) {
 								System.out.print(theStack.POP());
 							}
