@@ -1,0 +1,4 @@
+INF: a / ( b - c * d ) + b ^ x
+INF: a - b * c + ( d / b ) ^ x
+INF: a - b * c + d ^ ( b / x )
+INF: ~ ( a + ~ b )

@@ -1,0 +1,19 @@
+INF: x = a * ( b * c )
+INF: a + b + ( ~ a - a )
+INF: a * ( b - c )
+INF: error
+INF: x = a = b = c
+INF: a + b * ( c ^ d - e ) ^ ( f + g * h ) - i
+INF: error
+INF: ~ ~ a
+INF: ( a + ( b - c ) ) / d ^ e
+INF: error
+INF: a
+INF: a * b + c * d + d * e + f * g
+INF: a + ( b + ( c + d ) )
+INF: a + b + c + d
+INF: a * b * ( c * d )
+INF: a / b * c
+INF: a + b + ( c + d )
+INF: ( a + b ) / ( c * d )
+INF: ( a + ( b - c ) ) * ( ( d - e ) / ( f - g + h ) )

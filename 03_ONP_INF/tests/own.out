@@ -1,0 +1,20 @@
+ONP: a b c d / * + g r ^ + p m n + / -
+ONP: b y h c * + y g k ^ / - =
+ONP: error
+ONP: error
+ONP: a b c * + b c / a d * + /
+ONP: a b c y t * + < c d + < =
+ONP: l a c * y m o + * + ^
+ONP: error
+ONP: a b m ^ ^ c d + *
+ONP: a ~ b ~ ~ + c ~ / ~ d ~ * ~ e ~ ^ ~
+INF: a * ( b - c ) + a ^ b / c
+INF: ~ ~ ~ ~ a
+INF: ~ ( a + b )
+INF: ~ ~ ( a + b )
+INF: ( a + b ) / c - g * b * ( c / d )
+INF: ( ( ~ b + ~ ( c / d ) ) ^ g ) ^ h
+INF: error
+INF: ~ ( ~ ( ~ ( ( ~ a + ~ ~ b ) / ~ c ) * ~ d ) ^ ~ e )
+INF: error
+INF: k / ( l * ( m * o ) ) + t % r

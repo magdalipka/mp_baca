@@ -1,9 +1,1 @@
-Train
-/Train
-/Train/
-Train/
-Train/*
-/Train/*
-*.class
-main
-
+**/*.class
