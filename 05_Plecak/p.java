@@ -1,6 +1,5 @@
 // Magdalena Lipka gr. 7
 import java.util.Scanner;
-import java.util.Stack;
 
 class SingleStack {
 
