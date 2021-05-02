@@ -141,6 +141,11 @@ class INFtoONP extends Converter {
   Boolean ValidateExpression() {
     int state = 0;
     int openedMargins = 0;
+    // sprawdzenie automatem skonczonym czy
+    // wejscie w postaci inf jest prawislowe
+    // czyli wszystkie nawiasy sa zamkniete
+    // i zgadzaja sie ilosci i kolejnosci znakow
+    // i opertorow
     for (char c : this.Expression.toCharArray()) {
       String znak = Character.toString(c);
 
@@ -271,6 +276,11 @@ class ONPtoINF extends Converter {
   Boolean ValidateExpression() {
     int mode = 0; // ilosc podanych, niewykorzystanych wyrazen
 
+    // widac od lewej za kazda literke dodaje 1 do mode
+    // a za znak odejmuje 1 od mode
+    // wartosc mode oznacza ilosc wyrazen aktuanie
+    //  na koncu ma byc tylko jedno
+
     for (char c : this.Expression.toCharArray()) {
       String znak = Character.toString(c);
 
@@ -395,3 +405,45 @@ class Source {
     }
   }
 }
+// testy
+// 20
+// INF: a+b*(c/d)+g^r-p/(m+n)
+// INF: b=y+h*c-y/g^k
+// INF: a~+b*c
+// INF: ()+b
+// INF: (a +,b..*c)/(b/c+a*d)
+// INF: a=b<c+y*t<(c+d)
+// INF: l^(a*c+y*(m+o))
+// INF: (a+b)*(c+d)/y(
+// INF: a^b^m*(c+d)
+// INF: ~(~(~((~a+~~b)/~c)*~d)^~e)
+// ONP: abc-*ab^c/+
+// ONP: a~~~~
+// ONP: ab+~
+// ONP: ab+~~
+// ONP: ab+c/gb*cd/*-
+// ONP: b~cd/~+g^h^
+// ONP: abcdefg+*-/%
+// ONP: a~b~~+c~/~d~*~e~^~
+// ONP: xabcd^^=
+// ONP: klmo**/tr%+
+// ONP: a b c d / * + g r ^ + p m n + / -
+// ONP: b y h c * + y g k ^ / - =
+// ONP: error
+// ONP: error
+// ONP: a b c * + b c / a d * + /
+// ONP: a b c y t * + < c d + < =
+// ONP: l a c * y m o + * + ^
+// ONP: error
+// ONP: a b m ^ ^ c d + *
+// ONP: a ~ b ~ ~ + c ~ / ~ d ~ * ~ e ~ ^ ~
+// INF: a * ( b - c ) + a ^ b / c
+// INF: ~ ~ ~ ~ a
+// INF: ~ ( a + b )
+// INF: ~ ~ ( a + b )
+// INF: ( a + b ) / c - g * b * ( c / d )
+// INF: ( ( ~ b + ~ ( c / d ) ) ^ g ) ^ h
+// INF: error
+// INF: ~ ( ~ ( ~ ( ( ~ a + ~ ~ b ) / ~ c ) * ~ d ) ^ ~ e )
+// INF: error
+// INF: k / ( l * ( m * o ) ) + t % r
