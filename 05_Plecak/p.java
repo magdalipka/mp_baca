@@ -1,29 +1,6 @@
 // Magdalena Lipka gr. 7
 import java.util.Scanner;
 
-class SingleStack {
-
-  int[] array;
-  int top;
-
-  SingleStack(int size) {
-    array = new int[size];
-    top = -1;
-  }
-
-  boolean isEmpty() {
-    return top == -1;
-  }
-
-  void push(int Element) {
-    array[++top] = Element;
-  }
-
-  int pop() {
-    return array[top--];
-  }
-}
-
 class DoubleObject {
 
   int left;
@@ -54,15 +31,12 @@ class DoubleStack {
     array[++top] = Obj;
   }
 
-  void push(DoubleObject Element) {
-    array[++top] = Element;
-  }
-
   DoubleObject pop() {
     return array[top--];
   }
 
   String result() {
+    // zwraca wynik przechodzac od najmniejszego indeksu stosu
     if (!this.isEmpty()) {
       String Result = "";
       for (int i = 0; i <= this.top; i++) {
@@ -72,18 +46,6 @@ class DoubleStack {
       return Result;
     } else {
       return ("BRAK");
-    }
-  }
-
-  void print() {
-    System.out.println("Stack: ");
-    if (!this.isEmpty()) {
-      for (int i = 0; i <= this.top; i++) {
-        DoubleObject Elem = array[i];
-        System.out.println(Elem.left + " : " + Elem.right);
-      }
-    } else {
-      System.out.println("empty");
     }
   }
 }
@@ -129,6 +91,9 @@ class Source {
     if (MissingVolume == 0) return CurrentElements;
     if (Objects.length == CurrentIndex) return "";
     if (Objects[CurrentIndex] <= MissingVolume) {
+      // obliczenie czy istnieje rozwiazanie
+      // gdy w zbiorze znajdzie sie element
+      // spod obecnego indeksu
       String IncludeResult = RecursivePack(
         Objects,
         MissingVolume - Objects[CurrentIndex],
@@ -136,8 +101,12 @@ class Source {
         CurrentElements + " " + Objects[CurrentIndex]
       );
       if (!IncludeResult.equals("")) {
+        // jesli jest rozwiazanie z
+        // elementem spod aktualnego indeksu
         return IncludeResult;
       } else {
+        // jesli nie ma, to szukam rozwiazania
+        // bez elementu spod aktualnego indeksu
         return RecursivePack(
           Objects,
           MissingVolume,
@@ -146,6 +115,8 @@ class Source {
         );
       }
     } else {
+      // jesli element spod aktualnego indeksu
+      // jest za duzy to szukam rozwiazania bez niego
       return RecursivePack(
         Objects,
         MissingVolume,
@@ -156,7 +127,9 @@ class Source {
   }
 
   static String IterativePack(int[] Elements, int Volume) {
-    // left is indexes, right is values
+    // left to indeksy right to wartosci
+    // na stosie przechowuje elementy aktualnie wchodzace
+    // w sklad sprawdzanego podzbioru
     DoubleStack Stack = new DoubleStack(Elements.length + 1);
     int MissingSum = Volume;
     int CurrentIndex = 0;
@@ -164,28 +137,23 @@ class Source {
     boolean Found = false;
 
     while (true) {
-      // Stack.print();
-      // System.out.println("mis: " + MissingSum + ", ind: " + CurrentIndex);
-      // System.out.println("Press enter to continue...");
-      // in.nextLine();
-
       if (MissingSum == 0) {
         Found = true;
         break;
       }
 
+      // pomocniczy warunek dla (*) (nizej) jesli sciaga sie element
+      // ktory jest ostatni na stosie i jednoczesnie ostatni
+      // w tablicy
       if (CurrentIndex == Elements.length && !Stack.isEmpty()) {
         DoubleObject Elem = Stack.pop();
-
-        // System.out.println("    popped (1) " + Elem.right);
-
         MissingSum += Elem.right;
         CurrentIndex = Elem.left + 1;
       }
 
       if (Elements[CurrentIndex] <= MissingSum) {
-        // System.out.println("    pushed " + Elements[CurrentIndex]);
-
+        // jesli element jest mniejszy bdz rowny
+        // brakujaces sumie to klade go na stos
         Stack.push(CurrentIndex, Elements[CurrentIndex]);
         MissingSum -= Elements[CurrentIndex];
       }
@@ -196,17 +164,18 @@ class Source {
         break;
       }
 
+      // (*)
       if (
         (MissingSum < 0 || CurrentIndex == Elements.length) && !Stack.isEmpty()
       ) {
+        // jesli suma jest nieprawidlowa lub napotkano koniec tablicy
+        // usuwam ostatni element ze stosu i kontynuuje
         DoubleObject Elem = Stack.pop();
-
-        // System.out.println("    popped (2) " + Elem.right);
-
         MissingSum += Elem.right;
         CurrentIndex = Elem.left + 1;
       }
 
+      // jesli napotkano koniec tablicy a na stosie nie ma nic to zakanczam
       if (CurrentIndex == Elements.length && Stack.isEmpty()) {
         Found = false;
         break;
@@ -220,3 +189,8 @@ class Source {
     }
   }
 }
+// 1
+// 5
+// 4
+// 6 6 6 6
+// BRAK
