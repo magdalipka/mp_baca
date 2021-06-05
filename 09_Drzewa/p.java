@@ -185,16 +185,16 @@ class Tree {
 
   void Preorder() {
     String Result = "";
-    Stack Stos = new Stack(100);
+    Stack WorkingStack = new Stack(100);
     Node Curr = this.Root;
 
-    while (Curr != null || !Stos.isEmpty()) {
+    while (Curr != null || !WorkingStack.isEmpty()) {
       if (Curr != null) {
         Result += ", " + Curr.Info.Print();
-        Stos.push(Curr);
+        WorkingStack.push(Curr);
         Curr = Curr.SmallerChild;
       } else {
-        Curr = Stos.pop();
+        Curr = WorkingStack.pop();
         Curr = Curr.BiggerChild;
       }
     }
@@ -204,17 +204,17 @@ class Tree {
   }
 
   void Inorder() {
-    Stack Stos = new Stack(100);
+    Stack WorkingStack = new Stack(100);
     String Result = "";
 
     Node Curr = this.Root;
 
-    while (Curr != null || !Stos.isEmpty()) {
+    while (Curr != null || !WorkingStack.isEmpty()) {
       if (Curr != null) {
-        Stos.push(Curr);
+        WorkingStack.push(Curr);
         Curr = Curr.SmallerChild;
       } else {
-        Curr = Stos.pop();
+        Curr = WorkingStack.pop();
         Result += ", " + Curr.Info.Print();
         Curr = Curr.BiggerChild;
       }
@@ -225,19 +225,23 @@ class Tree {
   }
 
   void Postorder() {
-    String Result = "";
-    Stack Stos = new Stack(100);
-    Node Curr = this.Root;
+    Stack HelperStack = new Stack(100);
+    Stack ResultStack = new Stack(100);
 
-    while (Curr != null || !Stos.isEmpty()) {
-      if (Curr != null) {
-        Stos.push(Curr);
-        Curr = Curr.SmallerChild;
-      } else {
-        Curr = Stos.pop();
-        Curr = Curr.BiggerChild;
-      }
+    String Result = "";
+
+    HelperStack.push(this.Root);
+
+    while (!HelperStack.isEmpty()) {
+      Node Curr = HelperStack.pop();
+      ResultStack.push(Curr);
+
+      Result = ", " + Curr.Info.Print() + Result;
+
+      HelperStack.push(Curr.SmallerChild);
+      HelperStack.push(Curr.BiggerChild);
     }
+
     Result =
       "POSTORDER:" + (Result.length() > 1 ? Result.substring(1) : " BRAK");
     System.out.println(Result);
@@ -260,7 +264,7 @@ class Source {
       int CommandsQuantity = in.nextInt();
       in.nextLine();
 
-      Tree Kolejka = new Tree();
+      Tree Queue = new Tree();
 
       for (int j = 0; j < CommandsQuantity; j++) {
         String Command = in.next();
@@ -270,11 +274,11 @@ class Source {
           case "ENQUE":
             String PersonData = in.nextLine();
             Person NewPerson = new Person(PersonData);
-            Kolejka.Enqueue(NewPerson);
+            Queue.Enqueue(NewPerson);
             break;
           case "DEQUEMAX":
             in.nextLine();
-            Person RemovedPersonMax = Kolejka.DequeueMax();
+            Person RemovedPersonMax = Queue.DequeueMax();
             System.out.println(
               "DEQUEMAX: " +
               (RemovedPersonMax != null ? RemovedPersonMax.Print() : "BRAK")
@@ -282,7 +286,7 @@ class Source {
             break;
           case "DEQUEMIN":
             in.nextLine();
-            Person RemovedPersonMin = Kolejka.DequeueMin();
+            Person RemovedPersonMin = Queue.DequeueMin();
             System.out.println(
               "DEQUEMIN: " +
               (RemovedPersonMin != null ? RemovedPersonMin.Print() : "BRAK")
@@ -290,7 +294,7 @@ class Source {
             break;
           case "NEXT":
             int PriorityNext = in.nextInt();
-            Node NextNode = Kolejka.Next(PriorityNext);
+            Node NextNode = Queue.Next(PriorityNext);
             Person NextPerson = (NextNode != null ? NextNode.Info : null);
             System.out.println(
               "NEXT " +
@@ -302,7 +306,7 @@ class Source {
             break;
           case "PREV":
             int PriorityPrev = in.nextInt();
-            Node PrevNode = Kolejka.Prev(PriorityPrev);
+            Node PrevNode = Queue.Prev(PriorityPrev);
             Person PrevPerson = (PrevNode != null ? PrevNode.Info : null);
             System.out.println(
               "PREV " +
@@ -314,14 +318,14 @@ class Source {
             break;
           case "CREATE":
             String Type = in.next(" ");
-            Kolejka = new Tree();
+            Queue = new Tree();
             break;
           case "DELETE":
             break;
           case "PREORDER":
             break;
           case "INORDER":
-            Kolejka.Inorder();
+            Queue.Inorder();
             break;
           case "POSTORDER":
             break;
