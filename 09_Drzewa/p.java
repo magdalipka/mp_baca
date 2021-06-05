@@ -102,7 +102,7 @@ class Tree {
   Person DequeueMax() {
     if (this.Root == null) return null;
 
-    Node Prev = this.Root;
+    Node Prev = null;
     Node Curr = this.Root;
 
     while (Curr.BiggerChild != null) {
@@ -118,20 +118,90 @@ class Tree {
   }
 
   Person DequeueMin() {
-    return null;
+    if (this.Root == null) return null;
+
+    Node Prev = null;
+    Node Curr = this.Root;
+
+    while (Curr.SmallerChild != null) {
+      Prev = Curr;
+      Curr = Curr.SmallerChild;
+    }
+    if (Curr == this.Root) {
+      this.Root = Curr.BiggerChild;
+    } else {
+      Prev.SmallerChild = Curr.BiggerChild;
+    }
+    return Curr.Info;
   }
 
-  Person Next(int Priority) {
-    return null;
+  Node Next(int Priority) {
+    Node Prev = null;
+    Node Curr = this.Root;
+    while (Curr.Info.Priority != Priority) {
+      Prev = Curr;
+      if (Curr.Info.Priority < Priority) {
+        Curr = Curr.BiggerChild;
+      } else {
+        Curr = Curr.SmallerChild;
+      }
+    }
+
+    if (Curr.BiggerChild == null) {
+      return Prev.Info.Priority > Priority ? Prev : null;
+    } else {
+      Node FirstBigger = Curr.BiggerChild;
+      while (FirstBigger.SmallerChild != null) {
+        FirstBigger = FirstBigger.SmallerChild;
+      }
+      return FirstBigger;
+    }
   }
 
-  Person Prev(int Priority) {
-    return null;
+  Node Prev(int Priority) {
+    Node Prev = null;
+    Node Curr = this.Root;
+    while (Curr.Info.Priority != Priority) {
+      Prev = Curr;
+      if (Curr.Info.Priority < Priority) {
+        Curr = Curr.BiggerChild;
+      } else {
+        Curr = Curr.SmallerChild;
+      }
+    }
+
+    if (Curr.SmallerChild == null) {
+      return Prev.Info.Priority < Priority ? Prev : null;
+    } else {
+      Node FirstSmaller = Curr.SmallerChild;
+      while (FirstSmaller.BiggerChild != null) {
+        FirstSmaller = FirstSmaller.SmallerChild;
+      }
+      return FirstSmaller;
+    }
   }
 
   void Delete(int Priority) {}
 
-  void Preorder() {}
+  void Preorder() {
+    String Result = "";
+    Stack Stos = new Stack(100);
+    Node Curr = this.Root;
+
+    while (Curr != null || !Stos.isEmpty()) {
+      if (Curr != null) {
+        Result += ", " + Curr.Info.Print();
+        Stos.push(Curr);
+        Curr = Curr.SmallerChild;
+      } else {
+        Curr = Stos.pop();
+        Curr = Curr.BiggerChild;
+      }
+    }
+    Result =
+      "PREORDER:" + (Result.length() > 1 ? Result.substring(1) : " BRAK");
+    System.out.println(Result);
+  }
 
   void Inorder() {
     Stack Stos = new Stack(100);
@@ -145,9 +215,7 @@ class Tree {
         Curr = Curr.SmallerChild;
       } else {
         Curr = Stos.pop();
-
         Result += ", " + Curr.Info.Print();
-
         Curr = Curr.BiggerChild;
       }
     }
@@ -156,7 +224,24 @@ class Tree {
     System.out.println(Result);
   }
 
-  void Postorder() {}
+  void Postorder() {
+    String Result = "";
+    Stack Stos = new Stack(100);
+    Node Curr = this.Root;
+
+    while (Curr != null || !Stos.isEmpty()) {
+      if (Curr != null) {
+        Stos.push(Curr);
+        Curr = Curr.SmallerChild;
+      } else {
+        Curr = Stos.pop();
+        Curr = Curr.BiggerChild;
+      }
+    }
+    Result =
+      "POSTORDER:" + (Result.length() > 1 ? Result.substring(1) : " BRAK");
+    System.out.println(Result);
+  }
 
   int Height() {
     return 0;
@@ -192,17 +277,40 @@ class Source {
             Person RemovedPersonMax = Kolejka.DequeueMax();
             System.out.println(
               "DEQUEMAX: " +
-              (RemovedPersonMax != null ? RemovedPersonMax.Print() : " BRAK")
+              (RemovedPersonMax != null ? RemovedPersonMax.Print() : "BRAK")
             );
             break;
           case "DEQUEMIN":
             in.nextLine();
             Person RemovedPersonMin = Kolejka.DequeueMin();
-            System.out.println("DEQUEMIN: " + RemovedPersonMin.Print());
+            System.out.println(
+              "DEQUEMIN: " +
+              (RemovedPersonMin != null ? RemovedPersonMin.Print() : "BRAK")
+            );
             break;
           case "NEXT":
+            int PriorityNext = in.nextInt();
+            Node NextNode = Kolejka.Next(PriorityNext);
+            Person NextPerson = (NextNode != null ? NextNode.Info : null);
+            System.out.println(
+              "NEXT " +
+              PriorityNext +
+              ": " +
+              (NextPerson != null ? NextPerson.Print() : "BRAK")
+            );
+            in.nextLine();
             break;
-          case "MIN":
+          case "PREV":
+            int PriorityPrev = in.nextInt();
+            Node PrevNode = Kolejka.Prev(PriorityPrev);
+            Person PrevPerson = (PrevNode != null ? PrevNode.Info : null);
+            System.out.println(
+              "PREV " +
+              PriorityPrev +
+              ": " +
+              (PrevPerson != null ? PrevPerson.Print() : "BRAK")
+            );
+            in.nextLine();
             break;
           case "CREATE":
             String Type = in.next(" ");

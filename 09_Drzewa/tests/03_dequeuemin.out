@@ -1,0 +1,11 @@
+Zestaw 1
+DEQUEMIN: 30 - Andrzej Inny
+INORDER: 35 - Andrzej Wolny, 40 - Iwona Wolny, 45 - Iwona Inny
+DEQUEMIN: 35 - Andrzej Wolny
+INORDER: 40 - Iwona Wolny, 45 - Iwona Inny
+DEQUEMIN: 40 - Iwona Wolny
+INORDER: 45 - Iwona Inny
+DEQUEMIN: 45 - Iwona Inny
+INORDER: BRAK
+DEQUEMIN: BRAK
+INORDER: BRAK
