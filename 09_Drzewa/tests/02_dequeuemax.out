@@ -1,0 +1,11 @@
+Zestaw 1
+DEQUEMAX: 45 - Iwona Inny
+INORDER: 30 - Andrzej Inny, 35 - Andrzej Wolny, 40 - Iwona Wolny
+DEQUEMAX: 40 - Iwona Wolny
+INORDER: 30 - Andrzej Inny, 35 - Andrzej Wolny
+DEQUEMAX: 35 - Andrzej Wolny  
+INORDER: 30 - Andrzej Inny
+DEQUEMAX: 30 - Andrzej Inny
+INORDER: BRAK
+DEQUEMAX:  BRAK
+INORDER: BRAK
