@@ -1,0 +1,22 @@
+ZESTAW 1
+POSTORDER: 12 - Ewa Kot, 31 - Malgorzata Kowalczyk, 29 - Daniel Golba, 38 - Grzeorz Rokosz, 35 - Celina Sura, 43 - Bartek Bartek, 47 - Jola Jolajna, 50 - Koko Jambo, 48 - Iwona Iwona, 44 - Anna Kowalska
+PREORDER: 44 - Anna Kowalska, 43 - Bartek Bartek, 35 - Celina Sura, 29 - Daniel Golba, 12 - Ewa Kot, 31 - Malgorzata Kowalczyk, 38 - Grzeorz Rokosz, 48 - Iwona Iwona, 47 - Jola Jolajna, 50 - Koko Jambo
+INORDER: 12 - Ewa Kot, 29 - Daniel Golba, 31 - Malgorzata Kowalczyk, 35 - Celina Sura, 38 - Grzeorz Rokosz, 43 - Bartek Bartek, 44 - Anna Kowalska, 47 - Jola Jolajna, 48 - Iwona Iwona, 50 - Koko Jambo
+DEQUEMAX: 50 - Koko Jambo
+DEQUEMIN: 12 - Ewa Kot
+INORDER: 29 - Daniel Golba, 31 - Malgorzata Kowalczyk, 35 - Celina Sura, 38 - Grzeorz Rokosz, 43 - Bartek Bartek, 44 - Anna Kowalska, 47 - Jola Jolajna, 48 - Iwona Iwona
+NEXT 29: 31 - Malgorzata Kowalczyk
+NEXT 47: 48 - Iwona Iwona
+PREV 51: BRAK
+DELETE 50: BRAK
+HEIGHT: 4
+PREORDER: 44 - Anna Kowalska, 43 - Bartek Bartek, 38 - Grzeorz Rokosz, 29 - Daniel Golba, 31 - Malgorzata Kowalczyk, 48 - Iwona Iwona, 47 - Jola Jolajna
+INORDER: 29 - Daniel Golba, 31 - Malgorzata Kowalczyk, 38 - Grzeorz Rokosz, 43 - Bartek Bartek, 44 - Anna Kowalska, 47 - Jola Jolajna, 48 - Iwona Iwona
+NEXT 38: 43 - Bartek Bartek
+PREV 10: BRAK
+INORDER: 10 - Halina Kiepska, 29 - Daniel Golba, 43 - Bartek Bartek, 44 - Anna Kowalska, 47 - Jola Jolajna, 48 - Iwona Iwona
+NEXT 29: 43 - Bartek Bartek
+NEXT 39: 43 - Bartek Bartek
+DEQUEMAX: 48 - Iwona Iwona
+DEQUEMIN: 10 - Halina Kiepska
+HEIGHT: 4

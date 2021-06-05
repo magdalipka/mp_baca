@@ -1,5 +1,18 @@
 import java.util.Scanner;
 
+class IntegerStorage {
+
+  int Value;
+
+  IntegerStorage() {
+    this.Value = 0;
+  }
+
+  IntegerStorage(int Value) {
+    this.Value = Value;
+  }
+}
+
 class Stack {
 
   int Top;
@@ -71,6 +84,92 @@ class Tree {
 
   Tree() {
     this.Root = null;
+  }
+
+  private int max(int a, int b) {
+    return a > b ? a : b;
+  }
+
+  void CreatePostorder(Person[] People) {
+    IntegerStorage Iterator = new IntegerStorage(People.length - 1);
+    this.Root =
+      CreatePostorderWorker(
+        People,
+        Iterator,
+        Integer.MIN_VALUE,
+        Integer.MAX_VALUE
+      );
+  }
+
+  Node CreatePostorderWorker(
+    Person[] People,
+    IntegerStorage Iterator,
+    int Left,
+    int Right
+  ) {
+    if (Iterator.Value < 0) {
+      return null;
+    }
+
+    Node Curr = null;
+
+    Person CurrPerson = People[Iterator.Value];
+
+    // System.out.println(CurrPerson.Print());
+
+    if (CurrPerson.Priority > Left && CurrPerson.Priority < Right) {
+      Curr = new Node(CurrPerson);
+
+      Iterator.Value--;
+
+      Curr.BiggerChild =
+        CreatePostorderWorker(People, Iterator, CurrPerson.Priority, Right);
+      Curr.SmallerChild =
+        CreatePostorderWorker(People, Iterator, Left, CurrPerson.Priority);
+    }
+
+    return Curr;
+  }
+
+  void CreatePreorder(Person[] People) {
+    IntegerStorage Iterator = new IntegerStorage();
+    this.Root =
+      CreatePreorderWorker(
+        People,
+        Iterator,
+        Integer.MIN_VALUE,
+        Integer.MAX_VALUE
+      );
+  }
+
+  Node CreatePreorderWorker(
+    Person[] People,
+    IntegerStorage Iterator,
+    int Left,
+    int Right
+  ) {
+    if (Iterator.Value >= People.length) {
+      return null;
+    }
+
+    Node Curr = null;
+
+    Person CurrPerson = People[Iterator.Value];
+
+    // System.out.println(CurrPerson.Print());
+
+    if (CurrPerson.Priority > Left && CurrPerson.Priority < Right) {
+      Curr = new Node(CurrPerson);
+
+      Iterator.Value++;
+
+      Curr.SmallerChild =
+        CreatePreorderWorker(People, Iterator, Left, CurrPerson.Priority);
+      Curr.BiggerChild =
+        CreatePreorderWorker(People, Iterator, CurrPerson.Priority, Right);
+    }
+
+    return Curr;
   }
 
   void Enqueue(Person NewPerson) {
@@ -181,9 +280,54 @@ class Tree {
     }
   }
 
-  void Delete(int Priority) {}
+  void Delete(int Priority) {
+    Node Prev = null;
+    Node Curr = this.Root;
 
-  void Preorder() {
+    boolean isBigger = false;
+
+    while (Curr.Info.Priority != Priority) {
+      Prev = Curr;
+      if (Curr.Info.Priority < Priority) {
+        isBigger = true;
+        Curr = Curr.BiggerChild;
+      } else {
+        isBigger = false;
+        Curr = Curr.SmallerChild;
+      }
+    }
+
+    if (!(Curr.SmallerChild != null && Curr.BiggerChild != null)) {
+      if (isBigger) {
+        Prev.BiggerChild =
+          (Curr.SmallerChild != null ? Curr.SmallerChild : Curr.BiggerChild);
+      } else {
+        Prev.SmallerChild =
+          (Curr.SmallerChild != null ? Curr.SmallerChild : Curr.BiggerChild);
+      }
+    } else {
+      Node NextPrev = Curr;
+      Node NextCurr = Curr.BiggerChild;
+
+      while (NextCurr.SmallerChild != null) {
+        NextPrev = NextCurr;
+        NextCurr = NextCurr.SmallerChild;
+      }
+
+      NextPrev.BiggerChild = NextCurr.BiggerChild;
+
+      NextCurr.SmallerChild = Curr.SmallerChild;
+      NextCurr.BiggerChild = Curr.BiggerChild;
+
+      if (isBigger) {
+        Prev.BiggerChild = NextCurr;
+      } else {
+        Prev.SmallerChild = NextCurr;
+      }
+    }
+  }
+
+  String Preorder() {
     String Result = "";
     Stack WorkingStack = new Stack(100);
     Node Curr = this.Root;
@@ -200,10 +344,10 @@ class Tree {
     }
     Result =
       "PREORDER:" + (Result.length() > 1 ? Result.substring(1) : " BRAK");
-    System.out.println(Result);
+    return Result;
   }
 
-  void Inorder() {
+  String Inorder() {
     Stack WorkingStack = new Stack(100);
     String Result = "";
 
@@ -221,10 +365,10 @@ class Tree {
     }
 
     Result = "INORDER:" + (Result.length() > 1 ? Result.substring(1) : " BRAK");
-    System.out.println(Result);
+    return Result;
   }
 
-  void Postorder() {
+  String Postorder() {
     Stack HelperStack = new Stack(100);
     Stack ResultStack = new Stack(100);
 
@@ -244,11 +388,19 @@ class Tree {
 
     Result =
       "POSTORDER:" + (Result.length() > 1 ? Result.substring(1) : " BRAK");
-    System.out.println(Result);
+    return Result;
   }
 
   int Height() {
-    return 0;
+    return Height(this.Root);
+  }
+
+  int Height(Node Current) {
+    if (Current == null) {
+      return -1;
+    } else {
+      return max(Height(Current.SmallerChild), Height(Current.BiggerChild)) + 1;
+    }
   }
 }
 
@@ -259,7 +411,7 @@ class Source {
   public static void main(String[] args) {
     int TestCasesQuantity = in.nextInt();
     for (int i = 0; i < TestCasesQuantity; i++) {
-      System.out.println("Zestaw " + (i + 1));
+      System.out.println("ZESTAW " + (i + 1));
 
       int CommandsQuantity = in.nextInt();
       in.nextLine();
@@ -317,19 +469,54 @@ class Source {
             in.nextLine();
             break;
           case "CREATE":
-            String Type = in.next(" ");
+            String Type = in.next();
+
+            int PeopleQuantity = in.nextInt();
+            Person[] People = new Person[PeopleQuantity];
+            for (int k = 0; k < PeopleQuantity; k++) {
+              int NewPersonPriority = in.nextInt();
+              String NewPersonName = in.next();
+              String NewPersonSurname = in.next();
+              Person _NewPerson = new Person(
+                NewPersonPriority,
+                NewPersonName,
+                NewPersonSurname
+              );
+              People[k] = _NewPerson;
+            }
+
+            // for (int x = 0; x < PeopleQuantity; x++) {
+            //   System.out.println(People[x].Print());
+            // }
+
             Queue = new Tree();
+            if (Type.equals("PREORDER")) {
+              Queue.CreatePreorder(People);
+            } else {
+              Queue.CreatePostorder(People);
+            }
+            in.nextLine();
             break;
           case "DELETE":
+            int PriorityToDelete = in.nextInt();
+            Queue.Delete(PriorityToDelete);
+            in.nextLine();
             break;
           case "PREORDER":
+            System.out.println(Queue.Preorder());
+            in.nextLine();
             break;
           case "INORDER":
-            Queue.Inorder();
+            System.out.println(Queue.Inorder());
+            in.nextLine();
             break;
           case "POSTORDER":
+            System.out.println(Queue.Postorder());
+            in.nextLine();
             break;
           case "HEIGHT":
+            System.out.println("HEIGHT: " + Queue.Height());
+            in.nextLine();
             break;
         }
       }

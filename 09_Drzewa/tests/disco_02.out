@@ -1,0 +1,31 @@
+ZESTAW 1
+POSTORDER: 43 - Zofia Krzak, 47 - Ola Nowicka, 44 - Marek Mickiewicz, 33 - Anna Kowalska, 51 - Adam Nowak
+PREORDER: 51 - Adam Nowak, 33 - Anna Kowalska, 44 - Marek Mickiewicz, 43 - Zofia Krzak, 47 - Ola Nowicka
+INORDER: 33 - Anna Kowalska, 43 - Zofia Krzak, 44 - Marek Mickiewicz, 47 - Ola Nowicka, 51 - Adam Nowak
+DEQUEMIN: 33 - Anna Kowalska
+DEQUEMAX: 51 - Adam Nowak
+POSTORDER: 43 - Zofia Krzak, 47 - Ola Nowicka, 44 - Marek Mickiewicz
+NEXT 23: BRAK
+NEXT 43: 44 - Marek Mickiewicz
+DELETE 50: BRAK
+POSTORDER: 29 - Tomasz Kowalski, 43 - Zofia Krzak, 47 - Ola Nowicka, 44 - Marek Mickiewicz
+DELETE 33: BRAK
+POSTORDER: 29 - Tomasz Kowalski, 43 - Zofia Krzak, 44 - Marek Mickiewicz
+POSTORDER: 20 - Jan Nowak, 29 - Tomasz Kowalski, 43 - Zofia Krzak, 44 - Marek Mickiewicz
+PREV 29: 20 - Jan Nowak
+NEXT 29: 43 - Zofia Krzak
+DELETE 33: BRAK
+POSTORDER: 43 - Zofia Krzak, 48 - Tomasz Wolny, 44 - Marek Mickiewicz
+PREV 38: 35 - Andrzej Wolny
+NEXT 38: 43 - Zofia Krzak
+PREV 35: BRAK
+NEXT 35: 38 - Andrzej Kowalski
+INORDER: 35 - Andrzej Wolny, 38 - Andrzej Kowalski, 43 - Zofia Krzak, 44 - Marek Mickiewicz, 48 - Tomasz Wolny
+HEIGHT: 1
+INORDER: 22 - UU aa, 48 - Tomasz Wolny, 51 - Adam Nowak
+PREV 22: BRAK
+PREV 21: BRAK
+INORDER: 48 - Tomasz Wolny, 51 - Adam Nowak
+POSTORDER: 1 - o k, 50 - f k, 48 - Tomasz Wolny, 99 - x d, 51 - Adam Nowak
+PREORDER: 51 - Adam Nowak, 48 - Tomasz Wolny, 1 - o k, 50 - f k, 99 - x d
+HEIGHT: 2
