@@ -1,0 +1,14 @@
+ZESTAW 1
+POSTORDER: 12 - Adam Nowak, 33 - Anna Kowalska, 30 - Marek Mickiewicz, 43 - Zofia Krzak, 37 - Ola Nowicka
+PREORDER: 37 - Ola Nowicka, 30 - Marek Mickiewicz, 12 - Adam Nowak, 33 - Anna Kowalska, 43 - Zofia Krzak
+INORDER: 12 - Adam Nowak, 30 - Marek Mickiewicz, 33 - Anna Kowalska, 37 - Ola Nowicka, 43 - Zofia Krzak
+DEQUEMAX: 43 - Zofia Krzak
+DEQUEMIN: 12 - Adam Nowak
+INORDER: 30 - Marek Mickiewicz, 33 - Anna Kowalska, 37 - Ola Nowicka
+NEXT 33: 37 - Ola Nowicka
+NEXT 93: BRAK
+PREV 50: BRAK
+DELETE 50: BRAK
+POSTORDER: 30 - Marek Mickiewicz, 37 - Ola Nowicka
+INORDER: 30 - Marek Mickiewicz, 35 - Andrzej Wolny, 37 - Ola Nowicka
+HEIGHT: 2

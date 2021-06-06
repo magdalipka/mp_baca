@@ -11,14 +11,13 @@ PREV 33: BRAK
 PREV 47: 44 - Marek Mickiewicz
 DELETE 50: BRAK
 DELETE 33: BRAK
-PREV 29: 20 - Jan Nowak
+PREV 29: 28 - Jan Kowalski
 NEXT 29: 43 - Zofia Krzak
 DELETE 33: BRAK
-POSTORDER: 29 - Jan Kowalski, 43 - Zofia Krzak, 48 - Tomasz Wolny, 44 - Marek Mickiewicz
+POSTORDER: 28 - Jan Kowalski, 43 - Zofia Krzak, 48 - Tomasz Wolny, 44 - Marek Mickiewicz
 PREV 38: 35 - Andrzej Wolny
 NEXT 38: 43 - Zofia Krzak
-PREV 35: 29 - Jan Kowalski
+PREV 35: 28 - Jan Kowalski
 NEXT 35: 38 - Andrzej Kowalski
-INORDER: 29 - Tomasz Nowak, 35 - Andrzej Wolny, 38 - Andrzej Kowalski, 43 - Zofia Krzak, 44 - Marek Mickiewicz, 48 - Tomasz Wolny
-DELETE 51: BRAK
+INORDER: 28 - Jan Kowalski, 35 - Andrzej Wolny, 38 - Andrzej Kowalski, 43 - Zofia Krzak, 44 - Marek Mickiewicz, 48 - Tomasz Wolny
 HEIGHT: 1

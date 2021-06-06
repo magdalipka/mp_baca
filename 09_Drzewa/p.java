@@ -1,3 +1,4 @@
+// Magdalena Lipka
 import java.util.Scanner;
 
 class IntegerStorage {
@@ -237,8 +238,18 @@ class Tree {
   Node Next(int Priority) {
     Node Prev = null;
     Node Curr = this.Root;
-    while (Curr.Info.Priority != Priority) {
+    Node BiggerParent = this.Root;
+    while (Curr != null && Curr.Info.Priority != Priority) {
       Prev = Curr;
+      if (
+        Curr.Info.Priority > Priority &&
+        (
+          BiggerParent.Info.Priority < Priority ||
+          Curr.Info.Priority < BiggerParent.Info.Priority
+        )
+      ) {
+        BiggerParent = Curr;
+      }
       if (Curr.Info.Priority < Priority) {
         Curr = Curr.BiggerChild;
       } else {
@@ -246,8 +257,10 @@ class Tree {
       }
     }
 
+    if (Curr == null) return null;
+
     if (Curr.BiggerChild == null) {
-      return Prev.Info.Priority > Priority ? Prev : null;
+      return BiggerParent.Info.Priority > Priority ? BiggerParent : null;
     } else {
       Node FirstBigger = Curr.BiggerChild;
       while (FirstBigger.SmallerChild != null) {
@@ -260,8 +273,18 @@ class Tree {
   Node Prev(int Priority) {
     Node Prev = null;
     Node Curr = this.Root;
-    while (Curr.Info.Priority != Priority) {
+    Node SmallerParent = this.Root;
+    while (Curr != null && Curr.Info.Priority != Priority) {
       Prev = Curr;
+      if (
+        Curr.Info.Priority < Priority &&
+        (
+          SmallerParent.Info.Priority > Priority ||
+          Curr.Info.Priority > SmallerParent.Info.Priority
+        )
+      ) {
+        SmallerParent = Curr;
+      }
       if (Curr.Info.Priority < Priority) {
         Curr = Curr.BiggerChild;
       } else {
@@ -269,24 +292,26 @@ class Tree {
       }
     }
 
+    if (Curr == null) return null;
+
     if (Curr.SmallerChild == null) {
-      return Prev.Info.Priority < Priority ? Prev : null;
+      return SmallerParent.Info.Priority < Priority ? SmallerParent : null;
     } else {
       Node FirstSmaller = Curr.SmallerChild;
       while (FirstSmaller.BiggerChild != null) {
-        FirstSmaller = FirstSmaller.SmallerChild;
+        FirstSmaller = FirstSmaller.BiggerChild;
       }
       return FirstSmaller;
     }
   }
 
-  void Delete(int Priority) {
+  Person Delete(int Priority) {
     Node Prev = null;
     Node Curr = this.Root;
 
     boolean isBigger = false;
 
-    while (Curr.Info.Priority != Priority) {
+    while (Curr != null && Curr.Info.Priority != Priority) {
       Prev = Curr;
       if (Curr.Info.Priority < Priority) {
         isBigger = true;
@@ -297,34 +322,51 @@ class Tree {
       }
     }
 
+    if (Curr == null) return null;
+
     if (!(Curr.SmallerChild != null && Curr.BiggerChild != null)) {
-      if (isBigger) {
-        Prev.BiggerChild =
-          (Curr.SmallerChild != null ? Curr.SmallerChild : Curr.BiggerChild);
+      if (Prev == null) {
+        this.Root =
+          Curr.SmallerChild != null ? Curr.SmallerChild : Curr.BiggerChild;
       } else {
-        Prev.SmallerChild =
-          (Curr.SmallerChild != null ? Curr.SmallerChild : Curr.BiggerChild);
+        if (isBigger) {
+          Prev.BiggerChild =
+            Curr.SmallerChild != null ? Curr.SmallerChild : Curr.BiggerChild;
+        } else {
+          Prev.SmallerChild =
+            Curr.SmallerChild != null ? Curr.SmallerChild : Curr.BiggerChild;
+        }
       }
     } else {
       Node NextPrev = Curr;
       Node NextCurr = Curr.BiggerChild;
 
-      while (NextCurr.SmallerChild != null) {
-        NextPrev = NextCurr;
-        NextCurr = NextCurr.SmallerChild;
+      if (NextCurr.SmallerChild == null) {
+        NextCurr.SmallerChild = Curr.SmallerChild;
+      } else {
+        while (NextCurr.SmallerChild != null) {
+          NextPrev = NextCurr;
+          NextCurr = NextCurr.SmallerChild;
+        }
+
+        NextPrev.SmallerChild = NextCurr.BiggerChild;
+
+        NextCurr.SmallerChild = Curr.SmallerChild;
+        NextCurr.BiggerChild = Curr.BiggerChild;
       }
 
-      NextPrev.BiggerChild = NextCurr.BiggerChild;
-
-      NextCurr.SmallerChild = Curr.SmallerChild;
-      NextCurr.BiggerChild = Curr.BiggerChild;
-
-      if (isBigger) {
-        Prev.BiggerChild = NextCurr;
+      if (Prev == null) {
+        this.Root = NextCurr;
       } else {
-        Prev.SmallerChild = NextCurr;
+        if (isBigger) {
+          Prev.BiggerChild = NextCurr;
+        } else {
+          Prev.SmallerChild = NextCurr;
+        }
       }
     }
+
+    return Curr.Info;
   }
 
   String Preorder() {
@@ -370,7 +412,6 @@ class Tree {
 
   String Postorder() {
     Stack HelperStack = new Stack(100);
-    Stack ResultStack = new Stack(100);
 
     String Result = "";
 
@@ -378,7 +419,7 @@ class Tree {
 
     while (!HelperStack.isEmpty()) {
       Node Curr = HelperStack.pop();
-      ResultStack.push(Curr);
+      if (Curr == null) continue;
 
       Result = ", " + Curr.Info.Print() + Result;
 
@@ -410,6 +451,7 @@ class Source {
 
   public static void main(String[] args) {
     int TestCasesQuantity = in.nextInt();
+    in.nextLine();
     for (int i = 0; i < TestCasesQuantity; i++) {
       System.out.println("ZESTAW " + (i + 1));
 
@@ -495,11 +537,16 @@ class Source {
             } else {
               Queue.CreatePostorder(People);
             }
+
             in.nextLine();
             break;
           case "DELETE":
             int PriorityToDelete = in.nextInt();
-            Queue.Delete(PriorityToDelete);
+            // System.out.println(PriorityToDelete);
+            Person DeletedPerson = Queue.Delete(PriorityToDelete);
+            if (DeletedPerson == null) {
+              System.out.println("DELETE " + PriorityToDelete + ": BRAK");
+            }
             in.nextLine();
             break;
           case "PREORDER":
