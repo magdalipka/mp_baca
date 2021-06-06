@@ -48,7 +48,6 @@ class Person {
   public int Priority;
 
   Person(String CreationString) {
-    // System.out.println(CreationString);
     String[] Data = CreationString.split(" ");
     this.Priority = Integer.parseInt(Data[1]);
     this.Name = Data[2];
@@ -116,8 +115,6 @@ class Tree {
 
     Person CurrPerson = People[Iterator.Value];
 
-    // System.out.println(CurrPerson.Print());
-
     if (CurrPerson.Priority > Left && CurrPerson.Priority < Right) {
       Curr = new Node(CurrPerson);
 
@@ -156,8 +153,6 @@ class Tree {
     Node Curr = null;
 
     Person CurrPerson = People[Iterator.Value];
-
-    // System.out.println(CurrPerson.Print());
 
     if (CurrPerson.Priority > Left && CurrPerson.Priority < Right) {
       Curr = new Node(CurrPerson);
@@ -236,11 +231,9 @@ class Tree {
   }
 
   Node Next(int Priority) {
-    Node Prev = null;
     Node Curr = this.Root;
     Node BiggerParent = this.Root;
     while (Curr != null && Curr.Info.Priority != Priority) {
-      Prev = Curr;
       if (
         Curr.Info.Priority > Priority &&
         (
@@ -271,11 +264,9 @@ class Tree {
   }
 
   Node Prev(int Priority) {
-    Node Prev = null;
     Node Curr = this.Root;
     Node SmallerParent = this.Root;
     while (Curr != null && Curr.Info.Priority != Priority) {
-      Prev = Curr;
       if (
         Curr.Info.Priority < Priority &&
         (
@@ -440,7 +431,9 @@ class Tree {
     if (Current == null) {
       return -1;
     } else {
-      return max(Height(Current.SmallerChild), Height(Current.BiggerChild)) + 1;
+      return (
+        max(Height(Current.SmallerChild), Height(Current.BiggerChild)) + 1
+      );
     }
   }
 }
@@ -461,111 +454,107 @@ class Source {
       Tree Queue = new Tree();
 
       for (int j = 0; j < CommandsQuantity; j++) {
-        String Command = in.next();
-        // System.out.println(Command);
+        try {
+          String Command = in.next();
 
-        switch (Command) {
-          case "ENQUE":
-            String PersonData = in.nextLine();
-            Person NewPerson = new Person(PersonData);
-            Queue.Enqueue(NewPerson);
-            break;
-          case "DEQUEMAX":
-            in.nextLine();
-            Person RemovedPersonMax = Queue.DequeueMax();
-            System.out.println(
-              "DEQUEMAX: " +
-              (RemovedPersonMax != null ? RemovedPersonMax.Print() : "BRAK")
-            );
-            break;
-          case "DEQUEMIN":
-            in.nextLine();
-            Person RemovedPersonMin = Queue.DequeueMin();
-            System.out.println(
-              "DEQUEMIN: " +
-              (RemovedPersonMin != null ? RemovedPersonMin.Print() : "BRAK")
-            );
-            break;
-          case "NEXT":
-            int PriorityNext = in.nextInt();
-            Node NextNode = Queue.Next(PriorityNext);
-            Person NextPerson = (NextNode != null ? NextNode.Info : null);
-            System.out.println(
-              "NEXT " +
-              PriorityNext +
-              ": " +
-              (NextPerson != null ? NextPerson.Print() : "BRAK")
-            );
-            in.nextLine();
-            break;
-          case "PREV":
-            int PriorityPrev = in.nextInt();
-            Node PrevNode = Queue.Prev(PriorityPrev);
-            Person PrevPerson = (PrevNode != null ? PrevNode.Info : null);
-            System.out.println(
-              "PREV " +
-              PriorityPrev +
-              ": " +
-              (PrevPerson != null ? PrevPerson.Print() : "BRAK")
-            );
-            in.nextLine();
-            break;
-          case "CREATE":
-            String Type = in.next();
-
-            int PeopleQuantity = in.nextInt();
-            Person[] People = new Person[PeopleQuantity];
-            for (int k = 0; k < PeopleQuantity; k++) {
-              int NewPersonPriority = in.nextInt();
-              String NewPersonName = in.next();
-              String NewPersonSurname = in.next();
-              Person _NewPerson = new Person(
-                NewPersonPriority,
-                NewPersonName,
-                NewPersonSurname
+          switch (Command) {
+            case "ENQUE":
+              String PersonData = in.nextLine();
+              Person NewPerson = new Person(PersonData);
+              Queue.Enqueue(NewPerson);
+              break;
+            case "DEQUEMAX":
+              in.nextLine();
+              Person RemovedPersonMax = Queue.DequeueMax();
+              System.out.println(
+                "DEQUEMAX: " +
+                (RemovedPersonMax != null ? RemovedPersonMax.Print() : "BRAK")
               );
-              People[k] = _NewPerson;
-            }
+              break;
+            case "DEQUEMIN":
+              in.nextLine();
+              Person RemovedPersonMin = Queue.DequeueMin();
+              System.out.println(
+                "DEQUEMIN: " +
+                (RemovedPersonMin != null ? RemovedPersonMin.Print() : "BRAK")
+              );
+              break;
+            case "NEXT":
+              int PriorityNext = in.nextInt();
+              Node NextNode = Queue.Next(PriorityNext);
+              Person NextPerson = (NextNode != null ? NextNode.Info : null);
+              System.out.println(
+                "NEXT " +
+                PriorityNext +
+                ": " +
+                (NextPerson != null ? NextPerson.Print() : "BRAK")
+              );
+              in.nextLine();
+              break;
+            case "PREV":
+              int PriorityPrev = in.nextInt();
+              Node PrevNode = Queue.Prev(PriorityPrev);
+              Person PrevPerson = (PrevNode != null ? PrevNode.Info : null);
+              System.out.println(
+                "PREV " +
+                PriorityPrev +
+                ": " +
+                (PrevPerson != null ? PrevPerson.Print() : "BRAK")
+              );
+              in.nextLine();
+              break;
+            case "CREATE":
+              String Type = in.next();
 
-            // for (int x = 0; x < PeopleQuantity; x++) {
-            //   System.out.println(People[x].Print());
-            // }
+              int PeopleQuantity = in.nextInt();
+              Person[] People = new Person[PeopleQuantity];
+              for (int k = 0; k < PeopleQuantity; k++) {
+                int NewPersonPriority = in.nextInt();
+                String NewPersonName = in.next();
+                String NewPersonSurname = in.next();
+                Person _NewPerson = new Person(
+                  NewPersonPriority,
+                  NewPersonName,
+                  NewPersonSurname
+                );
+                People[k] = _NewPerson;
+              }
 
-            Queue = new Tree();
-            if (Type.equals("PREORDER")) {
-              Queue.CreatePreorder(People);
-            } else {
-              Queue.CreatePostorder(People);
-            }
+              Queue = new Tree();
+              if (Type.equals("PREORDER")) {
+                Queue.CreatePreorder(People);
+              } else {
+                Queue.CreatePostorder(People);
+              }
 
-            in.nextLine();
-            break;
-          case "DELETE":
-            int PriorityToDelete = in.nextInt();
-            // System.out.println(PriorityToDelete);
-            Person DeletedPerson = Queue.Delete(PriorityToDelete);
-            if (DeletedPerson == null) {
-              System.out.println("DELETE " + PriorityToDelete + ": BRAK");
-            }
-            in.nextLine();
-            break;
-          case "PREORDER":
-            System.out.println(Queue.Preorder());
-            in.nextLine();
-            break;
-          case "INORDER":
-            System.out.println(Queue.Inorder());
-            in.nextLine();
-            break;
-          case "POSTORDER":
-            System.out.println(Queue.Postorder());
-            in.nextLine();
-            break;
-          case "HEIGHT":
-            System.out.println("HEIGHT: " + Queue.Height());
-            in.nextLine();
-            break;
-        }
+              in.nextLine();
+              break;
+            case "DELETE":
+              int PriorityToDelete = in.nextInt();
+              Person DeletedPerson = Queue.Delete(PriorityToDelete);
+              if (DeletedPerson == null) {
+                System.out.println("DELETE " + PriorityToDelete + ": BRAK");
+              }
+              in.nextLine();
+              break;
+            case "PREORDER":
+              System.out.println(Queue.Preorder());
+              in.nextLine();
+              break;
+            case "INORDER":
+              System.out.println(Queue.Inorder());
+              in.nextLine();
+              break;
+            case "POSTORDER":
+              System.out.println(Queue.Postorder());
+              in.nextLine();
+              break;
+            case "HEIGHT":
+              System.out.println("HEIGHT: " + Queue.Height());
+              in.nextLine();
+              break;
+          }
+        } catch (Exception e) {}
       }
     }
   }
