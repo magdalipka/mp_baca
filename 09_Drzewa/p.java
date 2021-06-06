@@ -1,6 +1,7 @@
 // Magdalena Lipka
 import java.util.Scanner;
 
+// Pomocnicza klasa do przechowywania iteratora podczas create
 class IntegerStorage {
 
   int Value;
@@ -14,6 +15,7 @@ class IntegerStorage {
   }
 }
 
+// Prosty stos
 class Stack {
 
   int Top;
@@ -47,6 +49,7 @@ class Person {
   public String Surname;
   public int Priority;
 
+  // Utworzenie nowej osoby z napisu <priorytet> <imie> <nazwisko>
   Person(String CreationString) {
     String[] Data = CreationString.split(" ");
     this.Priority = Integer.parseInt(Data[1]);
@@ -54,6 +57,7 @@ class Person {
     this.Surname = Data[3];
   }
 
+  // Utworzenie nowej osoby z podanych danych
   Person(int Priority, String Name, String Surname) {
     this.Priority = Priority;
     this.Name = Name;
@@ -91,6 +95,7 @@ class Tree {
   }
 
   void CreatePostorder(Person[] People) {
+    // Iterator jest przekazywany referencyjnie dzieki czemu zlozonoc hest liniowa gdyz funkcja createpostorderworker wywolywana jest rekurensyjnie dla kolejnych wartosci tablicy
     IntegerStorage Iterator = new IntegerStorage(People.length - 1);
     this.Root =
       CreatePostorderWorker(
@@ -115,11 +120,14 @@ class Tree {
 
     Person CurrPerson = People[Iterator.Value];
 
+    // Jesli osoba jest w zakresie to tworze dla niej nowy element i wywoluje rekurenyjnie dla jej prawego i lewego poddrzewam dzielac zakresy na jej wartoci
+
     if (CurrPerson.Priority > Left && CurrPerson.Priority < Right) {
       Curr = new Node(CurrPerson);
 
       Iterator.Value--;
 
+      // Poniewax iterator jest referencja to druga rekurencja idzie od miejsca gdzie zakonczyla sie pierwsza
       Curr.BiggerChild =
         CreatePostorderWorker(People, Iterator, CurrPerson.Priority, Right);
       Curr.SmallerChild =
@@ -130,6 +138,7 @@ class Tree {
   }
 
   void CreatePreorder(Person[] People) {
+    // Tak samo jak createpostorder z tym ze tutaj iterator sie zwieksza a tam sie zmniehszal
     IntegerStorage Iterator = new IntegerStorage();
     this.Root =
       CreatePreorderWorker(
@@ -157,6 +166,7 @@ class Tree {
     if (CurrPerson.Priority > Left && CurrPerson.Priority < Right) {
       Curr = new Node(CurrPerson);
 
+      // tak samo jak createpostorderm z tym ze iterator jest zwiekszany
       Iterator.Value++;
 
       Curr.SmallerChild =
@@ -177,6 +187,7 @@ class Tree {
       Node Prev = null;
       Node Curr = this.Root;
 
+      // Znajduje lisc do  ktorego zostanie dodana nowa osoba
       while (Curr != null) {
         Prev = Curr;
         if (NewNode.Info.Priority < Prev.Info.Priority) {
@@ -186,6 +197,7 @@ class Tree {
         }
       }
 
+      // Wstawienie na odpowiednie miejsce
       if (NewNode.Info.Priority < Prev.Info.Priority) {
         Prev.SmallerChild = NewNode;
       } else {
@@ -200,10 +212,12 @@ class Tree {
     Node Prev = null;
     Node Curr = this.Root;
 
+    // Przechodze maksymalnie w prawo
     while (Curr.BiggerChild != null) {
       Prev = Curr;
       Curr = Curr.BiggerChild;
     }
+    // Przepinam referencje tak zeby pominac usuwwany element
     if (Curr == this.Root) {
       this.Root = Curr.SmallerChild;
     } else {
@@ -218,10 +232,13 @@ class Tree {
     Node Prev = null;
     Node Curr = this.Root;
 
+    // Przechodze maksymalnie w lewo
     while (Curr.SmallerChild != null) {
       Prev = Curr;
       Curr = Curr.SmallerChild;
     }
+
+    // Przepinam referencje tak zeby pominac usuwany element
     if (Curr == this.Root) {
       this.Root = Curr.BiggerChild;
     } else {
@@ -233,6 +250,7 @@ class Tree {
   Node Next(int Priority) {
     Node Curr = this.Root;
     Node BiggerParent = this.Root;
+    // Szukam elementu po drodze zapamietujac najmniejsszego rodzica od niego wiekszego
     while (Curr != null && Curr.Info.Priority != Priority) {
       if (
         Curr.Info.Priority > Priority &&
@@ -253,8 +271,10 @@ class Tree {
     if (Curr == null) return null;
 
     if (Curr.BiggerChild == null) {
+      // jesli element nie ma prawego dziecka to zwracam najniejszego rodzica od niego wiekszego
       return BiggerParent.Info.Priority > Priority ? BiggerParent : null;
     } else {
+      // Przechodze o jeden w prawo i maksymalnie w lewo
       Node FirstBigger = Curr.BiggerChild;
       while (FirstBigger.SmallerChild != null) {
         FirstBigger = FirstBigger.SmallerChild;
@@ -266,6 +286,7 @@ class Tree {
   Node Prev(int Priority) {
     Node Curr = this.Root;
     Node SmallerParent = this.Root;
+    // Szukam elementu po drodze zapamietujac najmniejszego rodzica oid niego wiekszego
     while (Curr != null && Curr.Info.Priority != Priority) {
       if (
         Curr.Info.Priority < Priority &&
@@ -286,8 +307,10 @@ class Tree {
     if (Curr == null) return null;
 
     if (Curr.SmallerChild == null) {
+      // Jesli element nie ma lewego dziecka to zwracam najwiekszego przodka od niego mniejszego
       return SmallerParent.Info.Priority < Priority ? SmallerParent : null;
     } else {
+      // Przechodze o jeden w lewo i maksymalnie w prawo
       Node FirstSmaller = Curr.SmallerChild;
       while (FirstSmaller.BiggerChild != null) {
         FirstSmaller = FirstSmaller.BiggerChild;
@@ -302,6 +325,7 @@ class Tree {
 
     boolean isBigger = false;
 
+    // Szukam elementu i jego rodzica
     while (Curr != null && Curr.Info.Priority != Priority) {
       Prev = Curr;
       if (Curr.Info.Priority < Priority) {
@@ -315,6 +339,7 @@ class Tree {
 
     if (Curr == null) return null;
 
+    // Jesli element ma tylko jedno dziecko to wstawiam je na jego miejsce
     if (!(Curr.SmallerChild != null && Curr.BiggerChild != null)) {
       if (Prev == null) {
         this.Root =
@@ -329,23 +354,28 @@ class Tree {
         }
       }
     } else {
+      // Element ma dwoje dzieci wiec szukam jego nastepnika i rodzica tego nastepnika
       Node NextPrev = Curr;
       Node NextCurr = Curr.BiggerChild;
 
+      // Jesli prawe dziecko usuwanego elementu nie ma lewego dziecka, to tylko przepinam referenche na prawe
       if (NextCurr.SmallerChild == null) {
         NextCurr.SmallerChild = Curr.SmallerChild;
       } else {
+        // Przechodze maksymalnie w lewo od prawego dziecka usuwanego elementu
         while (NextCurr.SmallerChild != null) {
           NextPrev = NextCurr;
           NextCurr = NextCurr.SmallerChild;
         }
 
+        // Przepinam referencje tak zeby rodzic nastepnika juz na nie wskazywal, a anstepnik wskazywal na dzieci usuwanego elementu
         NextPrev.SmallerChild = NextCurr.BiggerChild;
 
         NextCurr.SmallerChild = Curr.SmallerChild;
         NextCurr.BiggerChild = Curr.BiggerChild;
       }
 
+      // Przepinam referencje tak zeby rodzic usuwanego elementu wskazywal na jego nastepnik
       if (Prev == null) {
         this.Root = NextCurr;
       } else {
@@ -365,6 +395,7 @@ class Tree {
     Stack WorkingStack = new Stack(100);
     Node Curr = this.Root;
 
+    // Za kazdym razem naspierw wyswietlam element i klade go na stos. przechodze do lewego poddrzewa. jesli nie element jest pusty to sciagam nowy ze stosu i przechodze do prawego podrzewa
     while (Curr != null || !WorkingStack.isEmpty()) {
       if (Curr != null) {
         Result += ", " + Curr.Info.Print();
@@ -386,6 +417,7 @@ class Tree {
 
     Node Curr = this.Root;
 
+    // Podobnie jak preorder z tym ze dany element wyswietlam przed przejsciem do jego prawego poddrzewa
     while (Curr != null || !WorkingStack.isEmpty()) {
       if (Curr != null) {
         WorkingStack.push(Curr);
@@ -402,20 +434,21 @@ class Tree {
   }
 
   String Postorder() {
-    Stack HelperStack = new Stack(100);
+    Stack Stack = new Stack(100);
 
     String Result = "";
 
-    HelperStack.push(this.Root);
+    Stack.push(this.Root);
 
-    while (!HelperStack.isEmpty()) {
-      Node Curr = HelperStack.pop();
+    // Sciagam element ze stosu i dokladam go na koniec wyniku. wrzucam jego dzieci na stos.
+    while (!Stack.isEmpty()) {
+      Node Curr = Stack.pop();
       if (Curr == null) continue;
 
       Result = ", " + Curr.Info.Print() + Result;
 
-      HelperStack.push(Curr.SmallerChild);
-      HelperStack.push(Curr.BiggerChild);
+      Stack.push(Curr.SmallerChild);
+      Stack.push(Curr.BiggerChild);
     }
 
     Result =
@@ -559,3 +592,103 @@ class Source {
     }
   }
 }
+// 6
+// 8
+// ENQUE 35 Andrzej Wolny
+// INORDER
+// ENQUE 30 Andrzej Inny
+// INORDER
+// ENQUE 40 Iwona Wolny
+// INORDER
+// ENQUE 45 Iwona Inny
+// INORDER
+// 14
+// ENQUE 35 Andrzej Wolny
+// ENQUE 30 Andrzej Inny
+// ENQUE 40 Iwona Wolny
+// ENQUE 45 Iwona Inny
+// DEQUEMAX
+// INORDER
+// DEQUEMAX
+// INORDER
+// DEQUEMAX
+// INORDER
+// DEQUEMAX
+// INORDER
+// DEQUEMAX
+// INORDER
+// 14
+// ENQUE 35 Andrzej Wolny
+// ENQUE 30 Andrzej Inny
+// ENQUE 40 Iwona Wolny
+// ENQUE 45 Iwona Inny
+// DEQUEMIN
+// INORDER
+// DEQUEMIN
+// INORDER
+// DEQUEMIN
+// INORDER
+// DEQUEMIN
+// INORDER
+// DEQUEMIN
+// INORDER
+// 8
+// ENQUE 35 Andrzej Wolny
+// ENQUE 30 Andrzej Inny
+// ENQUE 40 Iwona Wolny
+// ENQUE 45 Iwona Inny
+// NEXT 30
+// NEXT 35
+// NEXT 40
+// NEXT 45
+// 8
+// ENQUE 35 Andrzej Wolny
+// ENQUE 30 Andrzej Inny
+// ENQUE 40 Iwona Wolny
+// ENQUE 45 Iwona Inny
+// PREV 30
+// PREV 35
+// PREV 40
+// PREV 45
+// 2
+// CREATE PREORDER 9 3 3 3 1 1 1 2 2 2 6 6 6 5 5 5 4 4 4 8 8 8 7 7 7 9 9 9
+// INORDER
+// ZESTAW 1
+// INORDER: 35 - Andrzej Wolny
+// INORDER: 30 - Andrzej Inny, 35 - Andrzej Wolny
+// INORDER: 30 - Andrzej Inny, 35 - Andrzej Wolny, 40 - Iwona Wolny
+// INORDER: 30 - Andrzej Inny, 35 - Andrzej Wolny, 40 - Iwona Wolny, 45 - Iwona Inny
+// ZESTAW 2
+// DEQUEMAX: 45 - Iwona Inny
+// INORDER: 30 - Andrzej Inny, 35 - Andrzej Wolny, 40 - Iwona Wolny
+// DEQUEMAX: 40 - Iwona Wolny
+// INORDER: 30 - Andrzej Inny, 35 - Andrzej Wolny
+// DEQUEMAX: 35 - Andrzej Wolny
+// INORDER: 30 - Andrzej Inny
+// DEQUEMAX: 30 - Andrzej Inny
+// INORDER: BRAK
+// DEQUEMAX: BRAK
+// INORDER: BRAK
+// ZESTAW 3
+// DEQUEMIN: 30 - Andrzej Inny
+// INORDER: 35 - Andrzej Wolny, 40 - Iwona Wolny, 45 - Iwona Inny
+// DEQUEMIN: 35 - Andrzej Wolny
+// INORDER: 40 - Iwona Wolny, 45 - Iwona Inny
+// DEQUEMIN: 40 - Iwona Wolny
+// INORDER: 45 - Iwona Inny
+// DEQUEMIN: 45 - Iwona Inny
+// INORDER: BRAK
+// DEQUEMIN: BRAK
+// INORDER: BRAK
+// ZESTAW 4
+// NEXT 30: 35 - Andrzej Wolny
+// NEXT 35: 40 - Iwona Wolny
+// NEXT 40: 45 - Iwona Inny
+// NEXT 45: BRAK
+// ZESTAW 5
+// PREV 30: BRAK
+// PREV 35: 30 - Andrzej Inny
+// PREV 40: 35 - Andrzej Wolny
+// PREV 45: 40 - Iwona Wolny
+// ZESTAW 6
+// INORDER: 1 - 1 1, 2 - 2 2, 3 - 3 3, 4 - 4 4, 5 - 5 5, 6 - 6 6, 7 - 7 7, 8 - 8 8, 9 - 9 9
