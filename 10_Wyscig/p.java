@@ -76,7 +76,7 @@ class Contest {
     }
   }
 
-  void HandleTie(int Index, int Value) {
+  private void HandleTie(int Index, int Value) {
     // W przypadku remisu zastepuje "zwyciezcow" nastepnymi elementami ich ciagow i ponownie buduje kopiec w tablicy entries
     if (Index >= this.ContestantsAmount || this.Entries[Index].Value != Value) {
       return;
