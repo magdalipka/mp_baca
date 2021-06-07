@@ -1,6 +1,8 @@
 // Magdalena Lipka
 import java.util.Scanner;
 
+// Tworze kopiec na ktorym kazdy ciag bioracy udzial ma swoje "entry". Poczatkowo kazfy jako enytry wprowadzza swoj pierwszy element i z tego tworzony jest kopiec typu max. W momencie gdy ktos wygrywa, jego entry zostaje zastapione nastepnym elementem danego ciagu i wstawuane jest to w odpowiednie miehsce kopca ze zlozonoscia log(n). Gdy jest remis, zwyciezcow zastepuje ich nasstepnymi elementami i buduje kopiec od nowa.
+
 class ContestantEntry {
 
   int Index;
@@ -34,20 +36,19 @@ class Contest {
     this.Entries = new ContestantEntry[ContestantsAmount];
     this.ContestantsPoints = new int[ContestantsAmount];
 
+    // Utworzenie po jednym entry dla kazdego zawodnika. liniowa zlozonosc pamieciowa
     for (int i = 0; i < ContestantsAmount; i++) {
       this.Entries[i] = new ContestantEntry(0, i, Data[i][0]);
       this.ContestantsPoints[i] = 0;
     }
 
+    // Utworzenie kopca z entries z pierwszych elementow
     this.BuildHeap();
   }
 
   void Run() {
     //   i to numer rundy
     for (int i = 0; i < this.ContestantsLength; i++) {
-      //   this.PrintData();
-      //   this.PrintHeap();
-      //   System.out.println();
       if (
         (
           RightChildIndex(0) < this.ContestantsAmount &&
@@ -76,6 +77,7 @@ class Contest {
   }
 
   void HandleTie(int Index, int Value) {
+    // W przypadku remisu zastepuje "zwyciezcow" nastepnymi elementami ich ciagow i ponownie buduje kopiec w tablicy entries
     if (Index >= this.ContestantsAmount || this.Entries[Index].Value != Value) {
       return;
     } else {
@@ -107,8 +109,8 @@ class Contest {
   private void BuildHeap() {
     int StartIndex = (this.ContestantsAmount / 2) - 1;
 
+    // Poniewaz heapify jest wykonuje downheap, to ostateczna zlozonosv tworzenia kopca jest liniowa
     for (int i = StartIndex; i >= 0; i--) {
-      //   System.out.println("i: " + i);
       this.Heapify(i);
     }
   }
@@ -118,12 +120,7 @@ class Contest {
     int LeftChildIndex = this.LeftChildIndex(Index);
     int RightChildIndex = this.RightChildIndex(Index);
 
-    // System.out.println();
-    // System.out.print("---" + ToPopIndex + "---");
-    // System.out.println();
-    // System.out.print(LeftChildIndex + "---" + RightChildIndex);
-    // System.out.println();
-
+    // Wybieram najwiekszy element sposrod obecnego i jego dzieci. jersli to jedno z dzieci jest tym elementem to zamieniam je pozycjami i wykonuje downheap dla rodzica na nowej pozycji
     if (
       LeftChildIndex < this.ContestantsAmount &&
       this.Entries[LeftChildIndex].Value > this.Entries[ToPopIndex].Value
@@ -200,3 +197,12 @@ class Source {
     }
   }
 }
+// Krotkie testy bo jest to na tyle prosty program ze po poprawieniu edge case z wychodzeniem poza tablice, to ladnie dziala
+// 1
+// 3 2
+// a 5 2
+// b -1 6
+// c 5 6
+// a - 0 pkt.
+// b - 0 pkt.
+// c - 1 pkt.
